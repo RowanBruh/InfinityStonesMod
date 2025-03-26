@@ -1,0 +1,40 @@
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gauntletGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFAA00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DD8800;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Base gauntlet -->
+  <polygon points="5,3 5,12 11,12 11,3" fill="url(#gauntletGold)" stroke="#BB7700" stroke-width="0.3" />
+  
+  <!-- Fingers -->
+  <rect x="6" y="2" width="1" height="3" fill="url(#gauntletGold)" stroke="#BB7700" stroke-width="0.2" />
+  <rect x="7.5" y="1.5" width="1" height="3.5" fill="url(#gauntletGold)" stroke="#BB7700" stroke-width="0.2" />
+  <rect x="9" y="2" width="1" height="3" fill="url(#gauntletGold)" stroke="#BB7700" stroke-width="0.2" />
+  
+  <!-- Thumb -->
+  <polygon points="4,5 5,5 5,7 4,8" fill="url(#gauntletGold)" stroke="#BB7700" stroke-width="0.2" />
+  
+  <!-- Forearm -->
+  <polygon points="5,12 5,13.5 11,13.5 11,12" fill="url(#gauntletGold)" stroke="#BB7700" stroke-width="0.3" />
+  
+  <!-- Stone settings -->
+  <circle cx="8" cy="5" r="1" fill="#444444" stroke="#222222" stroke-width="0.2" />
+  <circle cx="6.5" cy="7" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2" />
+  <circle cx="9.5" cy="7" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2" />
+  <circle cx="8" cy="9" r="1" fill="#444444" stroke="#222222" stroke-width="0.2" />
+  <circle cx="6.5" cy="11" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2" />
+  <circle cx="9.5" cy="11" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2" />
+  
+  <!-- Details -->
+  <line x1="5" y1="5" x2="11" y2="5" stroke="#BB7700" stroke-width="0.2" />
+  <line x1="5" y1="9" x2="11" y2="9" stroke="#BB7700" stroke-width="0.2" />
+  
+  <!-- Highlights -->
+  <line x1="7" y1="3" x2="9" y2="3" stroke="#FFEE99" stroke-width="0.3" stroke-opacity="0.7" />
+  <line x1="6" y1="7" x2="10" y2="7" stroke="#FFEE99" stroke-width="0.3" stroke-opacity="0.7" />
+  <line x1="6" y1="11" x2="10" y2="11" stroke="#FFEE99" stroke-width="0.3" stroke-opacity="0.7" />
+</svg>

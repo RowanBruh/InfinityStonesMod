@@ -1,0 +1,40 @@
+# This is an example mods.toml file. It contains information about the mod's metadata.
+# The name and version of this mods.toml is required.
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+
+# A URL to refer people to when problems occur with this mod
+issueTrackerURL="https://github.com/yourusername/infinitystones/issues"
+
+# A list of mods - how many allowed here is determined by the individual mod loader
+[[mods]]
+modId="infinitystones"
+version="1.0.0"
+displayName="Infinity Stones"
+updateJSONURL="https://github.com/yourusername/infinitystones/raw/master/updates.json"
+displayURL="https://github.com/yourusername/infinitystones"
+logoFile="infinitystones.png"
+credits="Thanks to the Insane Craft series for inspiration"
+authors="Your Name"
+description='''
+A mod that adds the Infinity Stones from the Marvel universe to Minecraft.
+Collect all six stones and use them to control the cosmos!
+
+Features from Insane Craft series such as powerful bosses and custom crafting.
+'''
+
+# Here's another dependency
+[[dependencies.infinitystones]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5]"
+    ordering="NONE"
+    side="BOTH"
+    
+[[dependencies.infinitystones]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"

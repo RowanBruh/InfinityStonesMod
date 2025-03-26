@@ -1,0 +1,52 @@
+modules = ["java"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Minecraft Forge Server"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "minecraft_mod"
+
+[[workflows.workflow]]
+name = "Minecraft Forge Server"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd src && java -Xms1G -Xmx2G -jar minecraft_server.1.16.5.jar nogui"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "minecraft_mod"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd src && find . -type f | sort"
+
+[deployment]
+run = ["sh", "-c", "cd src && java -Xms1G -Xmx2G -jar minecraft_server.1.16.5.jar nogui"]

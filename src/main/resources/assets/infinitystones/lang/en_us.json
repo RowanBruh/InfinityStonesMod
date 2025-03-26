@@ -1,0 +1,25 @@
+{
+  "itemGroup.infinitystones": "Infinity Stones",
+  
+  "item.infinitystones.space_stone": "Space Stone",
+  "item.infinitystones.mind_stone": "Mind Stone",
+  "item.infinitystones.reality_stone": "Reality Stone",
+  "item.infinitystones.power_stone": "Power Stone",
+  "item.infinitystones.time_stone": "Time Stone",
+  "item.infinitystones.soul_stone": "Soul Stone",
+  "item.infinitystones.infinity_gauntlet": "Infinity Gauntlet",
+  
+  "item.infinitystones.ultimate_ingot": "Ultimate Ingot",
+  "item.infinitystones.chaos_shard": "Chaos Shard",
+  "item.infinitystones.cosmic_dust": "Cosmic Dust",
+  
+  "entity.infinitystones.chaos_guardian": "Chaos Guardian",
+  "entity.infinitystones.ultimate_boss": "Ultimate Boss",
+  "entity.infinitystones.crazy_wither": "Crazy Wither",
+  "entity.infinitystones.mega_dragon": "Mega Dragon",
+  
+  "container.infinitystones.gauntlet_container": "Infinity Gauntlet",
+  
+  "message.infinitystones.stones_collected": "All Infinity Stones collected!",
+  "message.infinitystones.snap": "%s snapped half of all life out of existence!"
+}
