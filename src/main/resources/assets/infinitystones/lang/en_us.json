@@ -1,7 +1,10 @@
 {
   "itemGroup.infinitystones": "Infinity Stones",
   "itemGroup.rowan_industries": "Rowan Industries",
-  "itemGroup.infinitystones.boncs_items": "Bonc's Items",
+  "itemGroup.bonc_items": "Bonc's Items",
+  
+  "item.infinitystones.teleport_pearl": "Teleport Pearl",
+  "item.infinitystones.tnt_stick": "TNT Stick",
   
   "item.infinitystones.space_stone": "Space Stone",
   "item.infinitystones.mind_stone": "Mind Stone",
@@ -18,49 +21,29 @@
   "item.infinitystones.epic_box": "Epic Box",
   "item.infinitystones.legendary_box": "Legendary Box",
   "item.infinitystones.cosmic_box": "Cosmic Box",
-  "item.infinitystones.insane_box": "Insane Box",
   
-  "item.infinitystones.ultimate_ingot": "Ultimate Ingot",
-  "item.infinitystones.chaos_shard": "Chaos Shard",
-  "item.infinitystones.cosmic_dust": "Cosmic Dust",
-  "item.infinitystones.cosmic_fragment": "Cosmic Fragment",
-  "item.infinitystones.dragon_scale": "Dragon Scale",
-  "item.infinitystones.withered_bone": "Withered Bone",
-  "item.infinitystones.cosmic_pearl": "Cosmic Pearl",
-  "item.infinitystones.enchanted_metal": "Enchanted Metal",
+  "block.infinitystones.rowan_lucky_block": "Rowan Lucky Block",
   
-  "item.infinitystones.royal_guardian_sword": "Royal Guardian Sword",
-  "item.infinitystones.ultimate_bow": "Ultimate Bow",
-  "item.infinitystones.thor_hammer": "Thor's Hammer",
-  
-  "item.infinitystones.super_breaker": "Super Breaker",
-  "item.infinitystones.ultimate_fishing_rod": "Ultimate Fishing Rod",
-  
-  "item.infinitystones.infinity_helmet": "Infinity Helmet",
-  "item.infinitystones.infinity_chestplate": "Infinity Chestplate",
-  "item.infinitystones.infinity_leggings": "Infinity Leggings",
-  "item.infinitystones.infinity_boots": "Infinity Boots",
-  
-  "item.infinitystones.ultra_grappling_hook": "Ultra Grappling Hook",
-  "item.infinitystones.gravity_hammer": "Gravity Hammer",
   "item.infinitystones.lightning_rod": "Lightning Rod",
+  "item.infinitystones.gravity_hammer": "Gravity Hammer",
+  "item.infinitystones.ultra_grappling_hook": "Ultra Grappling Hook",
+  "block.infinitystones.bionic_lucky_block": "Bionic Lucky Block",
   
-  "item.infinitystones.nano_tech_armor": "Infected Nano Tech Armor",
-  "item.infinitystones.nano_tech_helmet": "Infected Nano Tech Helmet",
-  "item.infinitystones.nano_tech_leggings": "Infected Nano Tech Leggings",
-  "item.infinitystones.nano_tech_boots": "Infected Nano Tech Boots",
-  "item.infinitystones.nano_tech_sword": "Infected Nano Tech Sword",
-  "item.infinitystones.nano_tech_core": "Infected Nano Tech Core",
+  "item.infinitystones.enchanted_metal": "Enchanted Metal",
+  "item.infinitystones.dragon_scale": "Dragon Scale",
   
-  "item.infinitystones.hundred_days_sword": "100 Days Sword",
-  "item.infinitystones.ultra_bow": "Ultra Bow",
-  "item.infinitystones.giant_pickaxe": "Giant Pickaxe",
-  "item.infinitystones.lightning_trident": "Lightning Trident",
-  "item.infinitystones.xray_goggles": "X-Ray Goggles",
-  "item.infinitystones.bionic_challenge_book": "Bonc's Challenge Book",
-  "item.infinitystones.tnt_stick": "TNT Stick",
-  "item.infinitystones.teleport_pearl": "Teleport Pearl",
+  "item.infinitystones.nano_tech_core": "Nano Tech Core",
+  "item.infinitystones.nano_tech_helmet": "Nano Tech Helmet",
+  "item.infinitystones.nano_tech_armor": "Nano Tech Armor",
+  "item.infinitystones.nano_tech_leggings": "Nano Tech Leggings",
+  "item.infinitystones.nano_tech_boots": "Nano Tech Boots",
+  "item.infinitystones.nano_tech_sword": "Nano Tech Sword",
   
-  "block.infinitystones.bionic_lucky_block": "Bonc's Lucky Block",
-  "block.infinitystones.rowan_lucky_block": "Rowan Lucky Block"
+  "item.infinitystones.infected_space_stone": "Infected Space Stone",
+  "item.infinitystones.infected_mind_stone": "Infected Mind Stone",
+  "item.infinitystones.infected_reality_stone": "Infected Reality Stone",
+  "item.infinitystones.infected_power_stone": "Infected Power Stone",
+  "item.infinitystones.infected_time_stone": "Infected Time Stone",
+  "item.infinitystones.infected_soul_stone": "Infected Soul Stone",
+  "item.infinitystones.infected_infinity_gauntlet": "Infected Infinity Gauntlet"
 }
