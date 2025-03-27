@@ -1,5 +1,8 @@
 {
   "itemGroup.infinitystones": "Infinity Stones",
+  "itemGroup.rowan_industries": "Rowan Industries",
+  
+  "block.infinitystones.rowan_lucky_block": "Rowan Lucky Block",
   
   "item.infinitystones.space_stone": "Space Stone",
   "item.infinitystones.mind_stone": "Mind Stone",
@@ -12,14 +15,31 @@
   "item.infinitystones.ultimate_ingot": "Ultimate Ingot",
   "item.infinitystones.chaos_shard": "Chaos Shard",
   "item.infinitystones.cosmic_dust": "Cosmic Dust",
+  "item.infinitystones.dragon_scale": "Dragon Scale",
+  "item.infinitystones.withered_bone": "Withered Bone",
+  "item.infinitystones.cosmic_pearl": "Cosmic Pearl",
+  "item.infinitystones.enchanted_metal": "Enchanted Metal",
   
-  "entity.infinitystones.chaos_guardian": "Chaos Guardian",
-  "entity.infinitystones.ultimate_boss": "Ultimate Boss",
-  "entity.infinitystones.crazy_wither": "Crazy Wither",
-  "entity.infinitystones.mega_dragon": "Mega Dragon",
+  "item.infinitystones.royal_guardian_sword": "Royal Guardian Sword",
+  "item.infinitystones.ultimate_bow": "Ultimate Bow",
+  "item.infinitystones.thor_hammer": "Thor's Hammer",
+  "item.infinitystones.super_breaker": "Super Breaker",
+  "item.infinitystones.ultimate_fishing_rod": "Ultimate Fishing Rod",
   
-  "container.infinitystones.gauntlet_container": "Infinity Gauntlet",
+  "item.infinitystones.infinity_helmet": "Infinity Helmet",
+  "item.infinitystones.infinity_chestplate": "Infinity Chestplate",
+  "item.infinitystones.infinity_leggings": "Infinity Leggings",
+  "item.infinitystones.infinity_boots": "Infinity Boots",
   
-  "message.infinitystones.stones_collected": "All Infinity Stones collected!",
-  "message.infinitystones.snap": "%s snapped half of all life out of existence!"
+  "item.infinitystones.common_box": "Common Box",
+  "item.infinitystones.rare_box": "Rare Box",
+  "item.infinitystones.epic_box": "Epic Box",
+  "item.infinitystones.legendary_box": "Legendary Box",
+  "item.infinitystones.cosmic_box": "Cosmic Box",
+  "item.infinitystones.insane_box": "Insane Box",
+  
+  "item.infinitystones.cosmic_fragment": "Cosmic Fragment",
+  "item.infinitystones.ultra_grappling_hook": "Ultra Grappling Hook",
+  "item.infinitystones.gravity_hammer": "Gravity Hammer",
+  "item.infinitystones.lightning_rod": "Lightning Rod"
 }

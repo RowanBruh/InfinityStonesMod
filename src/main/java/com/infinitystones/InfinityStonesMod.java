@@ -29,6 +29,13 @@ public class InfinityStonesMod {
         }
     };
     
+    public static final ItemGroup ROWAN_INDUSTRIES = new ItemGroup("rowan_industries") {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(ModItems.COSMIC_BOX.get());
+        }
+    };
+    
     public InfinityStonesMod() {
         // Register the setup method for modloading
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -40,6 +47,7 @@ public class InfinityStonesMod {
         
         // Register DeferredRegisters
         ModItems.ITEMS.register(modEventBus);
+        ModItems.BLOCKS.register(modEventBus);
         InsaneCraftBosses.ENTITY_TYPES.register(modEventBus);
         
         // Register ourselves for server and other game events

@@ -5,6 +5,14 @@ import com.infinitystones.items.InfinityStones.StoneType;
 import com.infinitystones.items.InsaneCraftWeapons.RoyalGuardianSword;
 import com.infinitystones.items.InsaneCraftWeapons.UltimateBow;
 import com.infinitystones.items.InsaneCraftWeapons.ThorHammer;
+import com.infinitystones.items.SkiddzieCustomBoxes.BoxRarity;
+import com.infinitystones.items.SkiddzieCustomBoxes.CustomBoxItem;
+import com.infinitystones.items.SkiddzieSpecialItems.UltraGrapplingHook;
+import com.infinitystones.items.SkiddzieSpecialItems.GravityHammer;
+import com.infinitystones.items.SkiddzieSpecialItems.LightningRod;
+import com.infinitystones.items.RowanLuckyBlock;
+import com.infinitystones.items.RowanLuckyBlock.RowanLuckyBlockItem;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -13,6 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, InfinityStonesMod.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, InfinityStonesMod.MOD_ID);
     
     // Infinity Stones
     public static final RegistryObject<Item> SPACE_STONE = ITEMS.register(
@@ -112,4 +121,56 @@ public class ModItems {
     public static final RegistryObject<Item> INFINITY_BOOTS = ITEMS.register(
             "infinity_boots",
             () -> new InfinityArmorItem(EquipmentSlotType.FEET));
+            
+    // SkiddziePlays Custom Boxes
+    public static final RegistryObject<Item> COMMON_BOX = ITEMS.register(
+            BoxRarity.COMMON.getRegistryName(),
+            () -> new CustomBoxItem(BoxRarity.COMMON, InfinityStonesMod.ROWAN_INDUSTRIES));
+            
+    public static final RegistryObject<Item> RARE_BOX = ITEMS.register(
+            BoxRarity.RARE.getRegistryName(),
+            () -> new CustomBoxItem(BoxRarity.RARE, InfinityStonesMod.ROWAN_INDUSTRIES));
+            
+    public static final RegistryObject<Item> EPIC_BOX = ITEMS.register(
+            BoxRarity.EPIC.getRegistryName(),
+            () -> new CustomBoxItem(BoxRarity.EPIC, InfinityStonesMod.ROWAN_INDUSTRIES));
+            
+    public static final RegistryObject<Item> LEGENDARY_BOX = ITEMS.register(
+            BoxRarity.LEGENDARY.getRegistryName(),
+            () -> new CustomBoxItem(BoxRarity.LEGENDARY, InfinityStonesMod.ROWAN_INDUSTRIES));
+            
+    public static final RegistryObject<Item> COSMIC_BOX = ITEMS.register(
+            BoxRarity.COSMIC.getRegistryName(),
+            () -> new CustomBoxItem(BoxRarity.COSMIC, InfinityStonesMod.ROWAN_INDUSTRIES));
+            
+    public static final RegistryObject<Item> INSANE_BOX = ITEMS.register(
+            BoxRarity.INSANE.getRegistryName(),
+            () -> new CustomBoxItem(BoxRarity.INSANE, InfinityStonesMod.ROWAN_INDUSTRIES));
+            
+    // SkiddziePlays custom items
+    public static final RegistryObject<Item> COSMIC_FRAGMENT = ITEMS.register(
+            "cosmic_fragment",
+            () -> new Item(new Item.Properties().group(InfinityStonesMod.INFINITY_GROUP)));
+            
+    // SkiddziePlays special tools
+    public static final RegistryObject<Item> ULTRA_GRAPPLING_HOOK = ITEMS.register(
+            "ultra_grappling_hook",
+            UltraGrapplingHook::new);
+            
+    public static final RegistryObject<Item> GRAVITY_HAMMER = ITEMS.register(
+            "gravity_hammer",
+            GravityHammer::new);
+            
+    public static final RegistryObject<Item> LIGHTNING_ROD = ITEMS.register(
+            "lightning_rod",
+            LightningRod::new);
+            
+    // Rowan Industries Lucky Block
+    public static final RegistryObject<Block> ROWAN_LUCKY_BLOCK = BLOCKS.register(
+            "rowan_lucky_block",
+            RowanLuckyBlock::new);
+            
+    public static final RegistryObject<Item> ROWAN_LUCKY_BLOCK_ITEM = ITEMS.register(
+            "rowan_lucky_block",
+            () -> new RowanLuckyBlockItem(ROWAN_LUCKY_BLOCK.get()));
 }
