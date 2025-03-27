@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " CU",
+    " SC",
+    "S  "
+  ],
+  "key": {
+    "U": {
+      "item": "infinitystones:ultimate_ingot"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "infinitystones:lightning_rod",
+    "count": 1
+  }
+}

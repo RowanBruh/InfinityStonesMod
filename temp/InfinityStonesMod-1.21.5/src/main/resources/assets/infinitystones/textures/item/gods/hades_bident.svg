@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Bident Staff -->
+  <rect x="7.5" y="2" width="1" height="14" fill="#444444" />
+  
+  <!-- Bident Head Base -->
+  <rect x="7" y="1" width="2" height="2" fill="#222222" />
+  
+  <!-- Two Prongs -->
+  <rect x="6.5" y="0" width="1" height="3" fill="#222222" />
+  <rect x="8.5" y="0" width="1" height="3" fill="#222222" />
+  
+  <!-- Soul flame effects -->
+  <path d="M6.5,0 C6,0 5.5,0.5 6,1 C6.5,1.5 6,2 5.5,1.5 C5,1 5.5,0 6.5,0 Z" fill="#7D2AC7" />
+  <path d="M8.5,0 C9,0 9.5,0.5 9,1 C8.5,1.5 9,2 9.5,1.5 C10,1 9.5,0 8.5,0 Z" fill="#7D2AC7" />
+  
+  <!-- Skull decoration -->
+  <circle cx="8" cy="4" r="0.7" fill="#222222" />
+  <rect x="7.5" y="3.5" width="1" height="1" fill="#222222" />
+  <rect x="7.2" y="4" width="0.3" height="0.3" fill="#222222" />
+  <rect x="8.5" y="4" width="0.3" height="0.3" fill="#222222" />
+  <path d="M7.5,4.5 L8.5,4.5" stroke="#222222" stroke-width="0.2" />
+  
+  <!-- Decorative soul details -->
+  <path d="M6,6 C6.5,5.5 7,6 7.5,6.5 C8,6 8.5,5.5 9,6 C9.5,6.5 9,7 8.5,7.5 C8,8 7.5,7.5 7,7 C6.5,7.5 6,7 6,6 Z" 
+        fill="none" stroke="#7D2AC7" stroke-width="0.3" />
+  
+  <!-- Soul wisp effects -->
+  <path d="M6,9 C6.5,8.5 7,8.5 7.5,9 C8,9.5 8.5,9.5 9,9" 
+        fill="none" stroke="#7D2AC7" stroke-width="0.3" stroke-dasharray="0.5,0.5" />
+  <path d="M5.5,11 C6,10.5 6.5,10.5 7,11 C7.5,11.5 8,11.5 8.5,11 C9,10.5 9.5,10.5 10,11" 
+        fill="none" stroke="#7D2AC7" stroke-width="0.3" stroke-dasharray="0.3,0.3" />
+  
+  <!-- Soul particles -->
+  <circle cx="6" cy="10" r="0.2" fill="#7D2AC7" fill-opacity="0.7" />
+  <circle cx="9" cy="12" r="0.2" fill="#7D2AC7" fill-opacity="0.7" />
+  <circle cx="7" cy="8" r="0.2" fill="#7D2AC7" fill-opacity="0.7" />
+  <circle cx="10" cy="10" r="0.2" fill="#7D2AC7" fill-opacity="0.7" />
+  
+  <!-- Hades symbol at the bottom -->
+  <path d="M7,13 C7,14 9,14 9,13" fill="none" stroke="#7D2AC7" stroke-width="0.3" />
+</svg>

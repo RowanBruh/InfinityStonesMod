@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NEN",
+    "DGD",
+    "NEN"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "E": {
+      "item": "infinitystones:enchanted_metal"
+    },
+    "D": {
+      "item": "infinitystones:dragon_scale"
+    },
+    "G": {
+      "item": "infinitystones:infinity_gauntlet"
+    }
+  },
+  "result": {
+    "item": "infinitystones:advanced_infinity_gauntlet",
+    "count": 1
+  }
+}

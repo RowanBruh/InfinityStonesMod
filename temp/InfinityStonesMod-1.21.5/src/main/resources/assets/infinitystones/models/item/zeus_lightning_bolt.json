@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "infinitystones:item/gods/zeus_lightning_bolt"
+  }
+}

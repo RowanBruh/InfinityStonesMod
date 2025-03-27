@@ -17,7 +17,7 @@ args = "Minecraft Forge Server"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "minecraft_mod"
+args = "infinity_stones_mod_1_21_5"
 
 [[workflows.workflow]]
 name = "Minecraft Forge Server"
@@ -31,11 +31,10 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd src && java -Xms1G -Xmx2G -jar minecraft_server.1.16.5.jar nogui"
-waitForPort = 5000
+args = "cd src && ls"
 
 [[workflows.workflow]]
-name = "minecraft_mod"
+name = "infinity_stones_mod_1_21_5"
 author = "agent"
 
 [workflows.workflow.metadata]
@@ -46,7 +45,7 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd src && find . -type f | sort"
+args = "find src/main/java -name \"*.java\" | sort"
 
 [deployment]
-run = ["sh", "-c", "cd src && java -Xms1G -Xmx2G -jar minecraft_server.1.16.5.jar nogui"]
+run = ["sh", "-c", "cd src && ls"]

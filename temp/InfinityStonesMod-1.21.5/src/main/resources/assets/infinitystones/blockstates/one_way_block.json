@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": { "model": "infinitystones:block/one_way_block" },
+    "facing=east": { "model": "infinitystones:block/one_way_block", "y": 90 },
+    "facing=south": { "model": "infinitystones:block/one_way_block", "y": 180 },
+    "facing=west": { "model": "infinitystones:block/one_way_block", "y": 270 },
+    "facing=up": { "model": "infinitystones:block/one_way_block", "x": 270 },
+    "facing=down": { "model": "infinitystones:block/one_way_block", "x": 90 }
+  }
+}
