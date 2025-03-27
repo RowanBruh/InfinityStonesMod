@@ -1,11 +1,14 @@
 package com.infinitystones;
 
+import com.infinitystones.blocks.ModBlocks;
 import com.infinitystones.config.ModConfig;
 import com.infinitystones.items.ModItems;
 import com.infinitystones.mobs.InsaneCraftBosses;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -14,6 +17,7 @@ import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,6 +54,9 @@ public class InfinityStonesMod {
         ModItems.BLOCKS.register(modEventBus);
         InsaneCraftBosses.ENTITY_TYPES.register(modEventBus);
         
+        // Register the ModBlocks class for event handling
+        MinecraftForge.EVENT_BUS.register(ModBlocks.class);
+        
         // Register ourselves for server and other game events
         MinecraftForge.EVENT_BUS.register(this);
         
@@ -80,5 +87,14 @@ public class InfinityStonesMod {
         
         // Register renderers for entities
         // In a full implementation, we'd register renderers for our custom entities here
+    }
+    
+    /**
+     * Helper method to find an item by its registry name
+     * @param registryName The registry name of the item to find (e.g. "infinitystones:space_stone")
+     * @return The item, or null if not found
+     */
+    public static Item findItem(String registryName) {
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(registryName));
     }
 }

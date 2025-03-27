@@ -1,15 +1,29 @@
 package com.infinitystones.items.bionic;
 
 import com.infinitystones.InfinityStonesMod;
+import com.infinitystones.blocks.ModBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.item.FallingBlockEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -46,7 +60,7 @@ public class BionicItems {
         // 100 Days Sword - Ultra powerful sword that gets stronger every "day"
         register(event, new SwordItem(
                 ItemTier.NETHERITE, 15, -2.4F,
-                new Item.Properties().group(ItemGroup.COMBAT).maxStackSize(1)
+                new Item.Properties().group(BionicCreativeTab.INSTANCE).maxStackSize(1)
         ) {
             @Override
             public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
@@ -69,7 +83,7 @@ public class BionicItems {
         }, "hundred_days_sword");
         
         // Ultra Bow - Shoots multiple arrows with explosive impact
-        register(event, new BowItem(new Item.Properties().group(ItemGroup.COMBAT).maxDamage(1000)) {
+        register(event, new BowItem(new Item.Properties().group(BionicCreativeTab.INSTANCE).maxDamage(1000)) {
             @Override
             public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
                 if (entityLiving instanceof PlayerEntity) {
@@ -89,7 +103,7 @@ public class BionicItems {
         // Giant Pickaxe - Mines in a 3x3 area
         register(event, new PickaxeItem(
                 ItemTier.DIAMOND, 5, -2.8F,
-                new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1)
+                new Item.Properties().group(BionicCreativeTab.INSTANCE).maxStackSize(1)
         ) {
             @Override
             public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving) {
@@ -110,7 +124,7 @@ public class BionicItems {
         }, "giant_pickaxe");
         
         // Lightning Trident - Summons lightning on impact
-        register(event, new TridentItem(new Item.Properties().group(ItemGroup.COMBAT).maxDamage(250)) {
+        register(event, new TridentItem(new Item.Properties().group(BionicCreativeTab.INSTANCE).maxDamage(250)) {
             @Override
             public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
                 if (!target.world.isRemote) {
@@ -126,7 +140,7 @@ public class BionicItems {
         }, "lightning_trident");
         
         // X-Ray Goggles - Allows seeing through walls (simulated with Night Vision + Glowing effects)
-        register(event, new Item(new Item.Properties().group(ItemGroup.TOOLS).maxStackSize(1)) {
+        register(event, new Item(new Item.Properties().group(BionicCreativeTab.INSTANCE).maxStackSize(1)) {
             @Override
             public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
                 if (entityIn instanceof PlayerEntity && isSelected) {
@@ -141,7 +155,7 @@ public class BionicItems {
         }, "xray_goggles");
         
         // Bionic Challenge Book - Gives random challenges when right-clicked
-        register(event, new Item(new Item.Properties().group(ItemGroup.MISC).maxStackSize(1)) {
+        register(event, new Item(new Item.Properties().group(BionicCreativeTab.INSTANCE).maxStackSize(1)) {
             @Override
             public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
                 ItemStack stack = playerIn.getHeldItem(handIn);
@@ -174,7 +188,7 @@ public class BionicItems {
         }, "bionic_challenge_book");
         
         // TNT Stick - Creates explosions when right-clicked
-        register(event, new Item(new Item.Properties().group(ItemGroup.COMBAT).maxStackSize(16)) {
+        register(event, new Item(new Item.Properties().group(BionicCreativeTab.INSTANCE).maxStackSize(16)) {
             @Override
             public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
                 ItemStack stack = playerIn.getHeldItem(handIn);
@@ -194,7 +208,7 @@ public class BionicItems {
         }, "tnt_stick");
         
         // Teleport Pearl - Teleports player much further than Ender Pearl
-        register(event, new Item(new Item.Properties().group(ItemGroup.MISC).maxStackSize(16)) {
+        register(event, new Item(new Item.Properties().group(BionicCreativeTab.INSTANCE).maxStackSize(16)) {
             @Override
             public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
                 ItemStack stack = playerIn.getHeldItem(handIn);
@@ -219,68 +233,8 @@ public class BionicItems {
         
         // Bionic Lucky Block - Custom lucky block with Bionic-themed rewards
         register(event, new BlockItem(
-                new Block(Block.Properties.create(Material.IRON)
-                        .hardnessAndResistance(0.5F)
-                        .sound(SoundType.METAL)) {
-                    @Override
-                    public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-                        if (!worldIn.isRemote) {
-                            Random rand = new Random();
-                            int outcome = rand.nextInt(10);
-                            
-                            switch (outcome) {
-                                case 0: // Spawn TNT
-                                    worldIn.createExplosion(null, pos.getX(), pos.getY(), pos.getZ(), 4.0F, Explosion.Mode.BREAK);
-                                    break;
-                                case 1: // Give player Bionic items
-                                    player.addItemStackToInventory(new ItemStack(HUNDRED_DAYS_SWORD));
-                                    break;
-                                case 2: // Spawn hostile mobs
-                                    for (int i = 0; i < 5; i++) {
-                                        ZombieEntity zombie = new ZombieEntity(EntityType.ZOMBIE, worldIn);
-                                        zombie.setPosition(pos.getX(), pos.getY(), pos.getZ());
-                                        worldIn.addEntity(zombie);
-                                    }
-                                    break;
-                                case 3: // Teleport player randomly
-                                    player.teleportKeepLoaded(
-                                            pos.getX() + rand.nextInt(100) - 50,
-                                            pos.getY() + rand.nextInt(50),
-                                            pos.getZ() + rand.nextInt(100) - 50);
-                                    break;
-                                case 4: // Give player diamond blocks
-                                    player.addItemStackToInventory(new ItemStack(Blocks.DIAMOND_BLOCK, 16));
-                                    break;
-                                case 5: // Apply potion effects
-                                    player.addPotionEffect(new EffectInstance(Effects.SPEED, 6000, 3));
-                                    player.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST, 6000, 3));
-                                    break;
-                                case 6: // Spawn lightning
-                                    LightningBoltEntity lightning = new LightningBoltEntity(EntityType.LIGHTNING_BOLT, worldIn);
-                                    lightning.setPosition(pos.getX(), pos.getY(), pos.getZ());
-                                    worldIn.addEntity(lightning);
-                                    break;
-                                case 7: // Give XP levels
-                                    player.addExperienceLevel(30);
-                                    break;
-                                case 8: // Spawn falling anvils
-                                    for (int i = 0; i < 10; i++) {
-                                        FallingBlockEntity anvil = new FallingBlockEntity(
-                                                worldIn, pos.getX() + rand.nextFloat() * 10 - 5,
-                                                pos.getY() + 20, pos.getZ() + rand.nextFloat() * 10 - 5,
-                                                Blocks.ANVIL.getDefaultState());
-                                        worldIn.addEntity(anvil);
-                                    }
-                                    break;
-                                case 9: // Give random Infinity Stone
-                                    // This would link to your existing infinity stones
-                                    break;
-                            }
-                        }
-                        super.onBlockHarvested(worldIn, pos, state, player);
-                    }
-                },
-                new Item.Properties().group(ItemGroup.BUILDING_BLOCKS)
+                ModBlocks.BIONIC_LUCKY_BLOCK,
+                new Item.Properties().group(BionicCreativeTab.INSTANCE)
         ), "bionic_lucky_block");
     }
     
