@@ -1,7 +1,12 @@
 {
-  "itemGroup.infinitystones": "Infinity Stones",
-  "itemGroup.rowan_industries": "Rowan Industries",
-  "itemGroup.boncs_items": "Bonc's Items",
+  "item.infinitystones.copper_golem": "Copper Golem",
+  "item.infinitystones.tuff_golem": "Tuff Golem",
+  "item.infinitystones.moobloom_spawn_egg": "Moobloom Spawn Egg",
+  "item.infinitystones.iceologer_staff": "Iceologer's Staff",
+  "item.infinitystones.wildfire_staff": "Wildfire's Staff",
+  "item.infinitystones.ostrich_egg": "Ostrich Egg",
+  "item.infinitystones.rascal_bag": "Rascal's Reward Bag",
+  "item.infinitystones.fletching_table_tool": "Fletcher's Tool",
   
   "item.infinitystones.space_stone": "Space Stone",
   "item.infinitystones.mind_stone": "Mind Stone",
@@ -39,28 +44,9 @@
   "item.infinitystones.gravity_hammer": "Gravity Hammer",
   "item.infinitystones.tnt_stick": "TNT Stick",
   
-  "block.infinitystones.rowan_lucky_block": "Rowan Lucky Block",
-  "block.infinitystones.admin_command_block": "Admin Command Block",
+  "block.infinitystones.one_way_block": "One Way Block",
   
-  "gui.infinitystones.infinity_gauntlet.title": "Infinity Gauntlet",
-  "gui.infinitystones.advanced_infinity_gauntlet.title": "Advanced Infinity Gauntlet",
-  "gui.infinitystones.advanced_infinity_gauntlet.individual_mode": "Individual Mode",
-  "gui.infinitystones.advanced_infinity_gauntlet.combined_mode": "Combined Mode",
-  
-  "infinitystones.infinity_gauntlet.stone.space": "Space Stone",
-  "infinitystones.infinity_gauntlet.stone.mind": "Mind Stone",
-  "infinitystones.infinity_gauntlet.stone.reality": "Reality Stone",
-  "infinitystones.infinity_gauntlet.stone.power": "Power Stone",
-  "infinitystones.infinity_gauntlet.stone.time": "Time Stone",
-  "infinitystones.infinity_gauntlet.stone.soul": "Soul Stone",
-  
-  "infinitystones.message.stone.inserted": "The %s has been inserted into the gauntlet",
-  "infinitystones.message.stone.removed": "The %s has been removed from the gauntlet",
-  "infinitystones.message.stone.ability.activated": "The %s ability has been activated",
-  "infinitystones.message.stone.ability.deactivated": "The %s ability has been deactivated",
-  "infinitystones.message.combined.ability.activated": "Combined Infinity Stone powers activated",
-  "infinitystones.message.combined.ability.deactivated": "Combined Infinity Stone powers deactivated",
-  
-  "infinitystones.tooltip.admin_command_block": "A powerful command block usable by any player",
-  "infinitystones.tooltip.admin_command_block.usage": "Right-click to open command interface"
+  "itemGroup.infinitystones.infinity_stones": "Infinity Stones",
+  "itemGroup.infinitystones.rowan_industries": "Rowan Industries",
+  "itemGroup.infinitystones.boncs_items": "Bonc's Items"
 }

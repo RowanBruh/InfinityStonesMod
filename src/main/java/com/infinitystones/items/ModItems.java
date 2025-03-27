@@ -1,6 +1,14 @@
 package com.infinitystones.items;
 
 import com.infinitystones.InfinityStonesMod;
+import com.infinitystones.items.rejected.CopperGolemItem;
+import com.infinitystones.items.rejected.FletchingTableTool;
+import com.infinitystones.items.rejected.IceologerStaff;
+import com.infinitystones.items.rejected.MoobloomSpawnEgg;
+import com.infinitystones.items.rejected.OstrichEgg;
+import com.infinitystones.items.rejected.RascalBag;
+import com.infinitystones.items.rejected.TuffGolemItem;
+import com.infinitystones.items.rejected.WildfireStaff;
 import com.infinitystones.tabs.ModItemGroups;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -113,4 +121,38 @@ public class ModItems {
     
     public static final RegistryObject<Item> TNT_STICK = ITEMS.register("tnt_stick",
             () -> new Item(new Item.Properties().group(ModItemGroups.BONCS_ITEMS)));
+            
+    // Rejected Ideas from Mojang (SkiddziePlays video) - Rowan Industries tab
+    
+    // Copper Golem - a player-built golem that randomly presses buttons
+    public static final RegistryObject<Item> COPPER_GOLEM = ITEMS.register("copper_golem",
+            CopperGolemItem::new);
+            
+    // Tuff Golem - decorative golem that holds and displays items
+    public static final RegistryObject<Item> TUFF_GOLEM = ITEMS.register("tuff_golem",
+            TuffGolemItem::new);
+    
+    // Moobloom - a cow that grows flowers on its back
+    public static final RegistryObject<Item> MOOBLOOM_SPAWN_EGG = ITEMS.register("moobloom_spawn_egg",
+            MoobloomSpawnEgg::new);
+    
+    // Iceologer - ice-themed illager that summons falling ice blocks
+    public static final RegistryObject<Item> ICEOLOGER_STAFF = ITEMS.register("iceologer_staff",
+            IceologerStaff::new);
+    
+    // Wildfire - nether mob that would spawn in bastion remnants
+    public static final RegistryObject<Item> WILDFIRE_STAFF = ITEMS.register("wildfire_staff",
+            WildfireStaff::new);
+    
+    // Ostrich - a rideable mob from Minecraft Earth
+    public static final RegistryObject<Item> OSTRICH_EGG = ITEMS.register("ostrich_egg",
+            OstrichEgg::new);
+    
+    // Rascal - a hide-and-seek mob that would give rewards if found
+    public static final RegistryObject<Item> RASCAL_BAG = ITEMS.register("rascal_bag",
+            RascalBag::new);
+    
+    // Fletching Table Tool - what the fletching table could have been
+    public static final RegistryObject<Item> FLETCHING_TABLE_TOOL = ITEMS.register("fletching_table_tool",
+            FletchingTableTool::new);
 }
