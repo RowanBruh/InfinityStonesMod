@@ -1,364 +1,259 @@
 package com.infinitystones.items;
 
-import com.infinitystones.InfinityStonesMod;
-import com.infinitystones.items.InfectedInfinityStones.InfectedStoneItem;
-import com.infinitystones.items.InfinityStones.StoneType;
+import com.infinitystones.tabs.ModItemGroups;
+import com.infinitystones.util.CombinedStoneAbilities;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
- * Infected Infinity Gauntlet - a chaotic, nano-tech corrupted version of the gauntlet
- * that provides enhanced but unstable powers.
+ * The Infected version of the Infinity Gauntlet with extreme power but severe side effects
  */
 public class InfectedInfinityGauntlet extends Item {
-    private static final String ACTIVE_TAG = "Active";
-    private static final Random random = new Random();
     
+    private static final Random RANDOM = new Random();
+    
+    /**
+     * Constructor for the Infected Infinity Gauntlet
+     */
     public InfectedInfinityGauntlet() {
         super(new Item.Properties()
-                .group(InfinityStonesMod.ROWAN_INDUSTRIES)
+                .group(ModItemGroups.ROWAN_INDUSTRIES)
                 .maxStackSize(1)
-                .setNoRepair()
-                .rarity(Rarity.EPIC));
+                .rarity(net.minecraft.item.Rarity.EPIC));
     }
     
+    /**
+     * Called when the item is right-clicked
+     */
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
-        CompoundNBT tag = stack.getOrCreateTag();
-        
-        // Get installed stones
-        Set<StoneType> installedStones = getInstalledStones(stack);
-        
-        if (installedStones.isEmpty()) {
-            if (!world.isRemote) {
-                player.sendStatusMessage(new StringTextComponent("No Infected Infinity Stones installed")
-                        .mergeStyle(TextFormatting.RED), true);
-            }
-            return ActionResult.resultFail(stack);
-        }
         
         if (!world.isRemote) {
-            // First apply infection effect
-            applyInfectionEffect(world, player);
+            // Check if we have any stones
+            Map<StoneType, Boolean> stones = getStonesInGauntlet(stack);
+            int stoneCount = countStonesInGauntlet(stones);
             
-            // Then trigger chaotic destruction
-            triggerChaoticBlast(world, player, installedStones);
+            if (stoneCount == 0) {
+                player.sendMessage(new StringTextComponent("§5The Infected Infinity Gauntlet has no stones equipped."), 
+                        player.getUniqueID());
+                return ActionResult.resultSuccess(stack);
+            }
             
-            // Set a long cooldown due to power
-            player.getCooldownTracker().setCooldown(this, 20 * 45); // 45 second cooldown
+            // Activate the ultimate power - using a custom version of the combined abilities
+            activateInfectedGauntletPower(player, world, stoneCount);
+            
+            // Apply cooldown - shorter for higher risk/reward
+            player.getCooldownTracker().setCooldown(this, 300); // 15 seconds cooldown
+        } else {
+            // Client-side GUI would go here in a full implementation
+            System.out.println("Opening Infected Infinity Gauntlet GUI");
         }
         
         return ActionResult.resultSuccess(stack);
     }
     
     /**
-     * Gets the set of stone types currently installed in the gauntlet
+     * Activates the infected gauntlet power
+     *
+     * @param player The player
+     * @param world The world
+     * @param stoneCount The number of stones in the gauntlet
      */
-    public Set<StoneType> getInstalledStones(ItemStack stack) {
-        Set<StoneType> stones = EnumSet.noneOf(StoneType.class);
+    private void activateInfectedGauntletPower(PlayerEntity player, World world, int stoneCount) {
+        // First, activate a stronger version of the combined abilities
+        CombinedStoneAbilities.activateCombinedAbilities(player, world);
         
-        IItemHandler handler = stack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
-        if (handler == null) return stones;
+        // Add additional extreme effects based on stone count
+        if (stoneCount >= 3) {
+            // Add flight-like abilities
+            player.addPotionEffect(new EffectInstance(Effects.LEVITATION, 100, 0));
+            player.addPotionEffect(new EffectInstance(Effects.SLOW_FALLING, 300, 0));
+        }
         
-        for (int i = 0; i < handler.getSlots(); i++) {
-            ItemStack stoneStack = handler.getStackInSlot(i);
-            if (!stoneStack.isEmpty() && stoneStack.getItem() instanceof InfectedStoneItem) {
-                InfectedStoneItem stoneItem = (InfectedStoneItem) stoneStack.getItem();
-                stones.add(stoneItem.getStoneType());
+        if (stoneCount >= 5) {
+            // Add temporary invulnerability
+            player.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 200, 4)); // 100% damage reduction
+        }
+        
+        // If we have all 6 stones, add the most powerful effect
+        if (stoneCount == 6) {
+            player.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 200, 0));
+            player.sendMessage(new StringTextComponent("§5§lULTIMATE POWER ACTIVATED!"), player.getUniqueID());
+            player.sendMessage(new StringTextComponent("§5§lThe infection grows stronger with every use..."), player.getUniqueID());
+        } else {
+            player.sendMessage(new StringTextComponent("§5Infected power activated with " + stoneCount + "/6 stones."), 
+                    player.getUniqueID());
+        }
+        
+        // Now apply the negative side effects - more severe than individual stones
+        applyInfectedGauntletSideEffects(player, stoneCount);
+    }
+    
+    /**
+     * Applies side effects from using the infected gauntlet
+     *
+     * @param player The player
+     * @param stoneCount The number of stones in the gauntlet
+     */
+    private void applyInfectedGauntletSideEffects(PlayerEntity player, int stoneCount) {
+        // Guaranteed minor negative effect
+        player.addPotionEffect(new EffectInstance(Effects.HUNGER, 400, 2));
+        player.sendMessage(new StringTextComponent("§8Side effect: You feel starving"), player.getUniqueID());
+        
+        // 80% chance of medium negative effect - higher than individual stones
+        if (RANDOM.nextFloat() < 0.8f) {
+            // Apply a random medium negative effect
+            switch (RANDOM.nextInt(3)) {
+                case 0:
+                    player.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 200, 1));
+                    player.sendMessage(new StringTextComponent("§8Side effect: Your movement is significantly slowed"), 
+                            player.getUniqueID());
+                    break;
+                case 1:
+                    player.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 300, 2));
+                    player.sendMessage(new StringTextComponent("§8Side effect: Your arms feel extremely heavy"), 
+                            player.getUniqueID());
+                    break;
+                case 2:
+                    player.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 300, 1));
+                    player.sendMessage(new StringTextComponent("§8Side effect: Your strength is sapped"), 
+                            player.getUniqueID());
+                    break;
             }
+        }
+        
+        // Chance of severe negative effect scales with stone count
+        // 10% per stone (60% with all stones)
+        float severeChance = 0.1f * stoneCount;
+        if (RANDOM.nextFloat() < severeChance) {
+            // Apply a random severe negative effect
+            switch (RANDOM.nextInt(3)) {
+                case 0:
+                    player.addPotionEffect(new EffectInstance(Effects.POISON, 300, 2));
+                    player.sendMessage(new StringTextComponent("§4Severe side effect: The infection spreads rapidly through your body"), 
+                            player.getUniqueID());
+                    break;
+                case 1:
+                    player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 200, 0));
+                    player.sendMessage(new StringTextComponent("§4Severe side effect: Your vision is consumed by darkness"), 
+                            player.getUniqueID());
+                    break;
+                case 2:
+                    player.addPotionEffect(new EffectInstance(Effects.NAUSEA, 300, 0));
+                    player.sendMessage(new StringTextComponent("§4Severe side effect: Your mind spirals into chaos"), 
+                            player.getUniqueID());
+                    break;
+            }
+        }
+        
+        // Critical effect chance increases with stone count
+        // 3% per stone (18% with all stones)
+        float criticalChance = 0.03f * stoneCount;
+        if (RANDOM.nextFloat() < criticalChance) {
+            player.addPotionEffect(new EffectInstance(Effects.WITHER, 200, 2));
+            player.sendMessage(new StringTextComponent("§4§lCRITICAL: The infection is consuming your life force!"), 
+                    player.getUniqueID());
+        }
+    }
+    
+    /**
+     * Counts how many stones are in the gauntlet
+     *
+     * @param stones Map of stones to their presence
+     * @return The number of stones
+     */
+    private int countStonesInGauntlet(Map<StoneType, Boolean> stones) {
+        int count = 0;
+        for (Boolean present : stones.values()) {
+            if (present) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    /**
+     * Gets all stones in the gauntlet
+     *
+     * @param stack The gauntlet item stack
+     * @return A map of stone types to their presence (true if present, false if not)
+     */
+    public Map<StoneType, Boolean> getStonesInGauntlet(ItemStack stack) {
+        Map<StoneType, Boolean> stones = new HashMap<>();
+        CompoundNBT nbt = stack.getOrCreateTag();
+        
+        for (StoneType type : StoneType.values()) {
+            stones.put(type, nbt.getBoolean("infected_" + type.getId() + "_stone"));
         }
         
         return stones;
     }
     
     /**
-     * Apply infection effects from the gauntlet
+     * Sets a stone in the gauntlet
+     *
+     * @param stack The gauntlet item stack
+     * @param type The stone type
+     * @param present Whether the stone is present
      */
-    private void applyInfectionEffect(World world, PlayerEntity player) {
-        player.addPotionEffect(new EffectInstance(Effects.NAUSEA, 100, 0));
-        
-        // Small chance of damage
-        if (random.nextFloat() < 0.2f) {
-            player.attackEntityFrom(NanoTechItems.NanoTechDamageSource.INFECTION, 2.0f);
-            player.sendStatusMessage(new StringTextComponent("The infected gauntlet corrupts your body!")
-                    .mergeStyle(TextFormatting.DARK_RED), true);
-        }
+    public void setStoneInGauntlet(ItemStack stack, StoneType type, boolean present) {
+        CompoundNBT nbt = stack.getOrCreateTag();
+        nbt.putBoolean("infected_" + type.getId() + "_stone", present);
     }
     
     /**
-     * Trigger a chaotic blast with effects based on the installed stones
-     */
-    private void triggerChaoticBlast(World world, PlayerEntity player, Set<StoneType> stones) {
-        double radius = 12.0 + (stones.size() * 3);
-        float damage = 4.0f + (stones.size() * 2);
-        
-        player.sendStatusMessage(new StringTextComponent("The infected gauntlet unleashes chaotic energy!")
-                .mergeStyle(TextFormatting.DARK_PURPLE, TextFormatting.BOLD), true);
-                
-        // Visual effects
-        if (!world.isRemote) {
-            ((ServerWorld) world).spawnParticle(
-                net.minecraft.particles.ParticleTypes.DRAGON_BREATH, 
-                player.getPosX(), player.getPosY() + 1, player.getPosZ(), 
-                30, // count
-                radius / 3, 2, radius / 3, // spread
-                0.1D // speed
-            );
-        }
-        
-        // Sound effect
-        world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), 
-                SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.PLAYERS, 1.0F, 0.5F);
-        
-        // Get entities in range
-        List<Entity> nearbyEntities = world.getEntitiesWithinAABBExcludingEntity(player, 
-                new AxisAlignedBB(
-                    player.getPosX() - radius, player.getPosY() - radius, player.getPosZ() - radius,
-                    player.getPosX() + radius, player.getPosY() + radius, player.getPosZ() + radius));
-        
-        // Apply effects to nearby entities
-        for (Entity entity : nearbyEntities) {
-            if (entity instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity) entity;
-                
-                // Apply damage
-                livingEntity.attackEntityFrom(DamageSource.MAGIC, damage);
-                
-                // Apply stone-specific effects
-                applyStoneEffects(livingEntity, stones, player);
-                
-                // Calculate direction vector away from player
-                Vector3d pushVector = entity.getPositionVec().subtract(player.getPositionVec()).normalize();
-                
-                // Apply knockback
-                double knockbackFactor = 1.5 + (stones.size() * 0.5);
-                entity.setMotion(entity.getMotion().add(
-                    pushVector.x * knockbackFactor,
-                    0.8,
-                    pushVector.z * knockbackFactor
-                ));
-                entity.velocityChanged = true;
-                
-                // Visual indicators
-                if (world instanceof ServerWorld) {
-                    ((ServerWorld) world).spawnParticle(
-                        net.minecraft.particles.ParticleTypes.WITCH,
-                        entity.getPosX(),
-                        entity.getPosY() + entity.getHeight() / 2,
-                        entity.getPosZ(),
-                        10, 0.3, 0.3, 0.3, 0.1
-                    );
-                }
-            }
-        }
-        
-        // Apply random block effects if Reality Stone is present
-        if (stones.contains(StoneType.REALITY)) {
-            applyRealityDistortion(world, player, radius);
-        }
-        
-        // Apply time effects if Time Stone is present
-        if (stones.contains(StoneType.TIME)) {
-            player.addPotionEffect(new EffectInstance(Effects.SPEED, 300, 2));
-            
-            // Slow nearby entities
-            for (Entity entity : nearbyEntities) {
-                if (entity instanceof LivingEntity && !(entity instanceof PlayerEntity)) {
-                    ((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 200, 2));
-                }
-            }
-        }
-        
-        // Apply cost to the player - more stones means more cost
-        int exhaustionLevel = stones.size();
-        player.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 300 + (exhaustionLevel * 100), exhaustionLevel - 1));
-        player.addPotionEffect(new EffectInstance(Effects.HUNGER, 300 + (exhaustionLevel * 100), exhaustionLevel - 1));
-    }
-    
-    /**
-     * Apply stone-specific effects to targets
-     */
-    private void applyStoneEffects(LivingEntity target, Set<StoneType> stones, PlayerEntity player) {
-        // Different effects based on which stones are installed
-        if (stones.contains(StoneType.MIND)) {
-            target.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 200, 0));
-            target.addPotionEffect(new EffectInstance(Effects.CONFUSION, 200, 0));
-        }
-        
-        if (stones.contains(StoneType.POWER)) {
-            target.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 300, 1));
-            
-            // Chance to ignite target
-            if (random.nextFloat() < 0.3f) {
-                target.setFire(5);
-            }
-        }
-        
-        if (stones.contains(StoneType.SOUL)) {
-            // Soul Stone allows the wielder to gain health from targets
-            if (target.getHealth() > 2) {
-                float healthStolen = target.getHealth() * 0.25f;
-                target.setHealth(target.getHealth() - healthStolen);
-                player.heal(healthStolen);
-            }
-        }
-        
-        if (stones.contains(StoneType.SPACE)) {
-            // Space Stone has a chance to randomly teleport the target
-            if (random.nextFloat() < 0.3f && !target.isInvulnerable()) {
-                double range = 20;
-                double x = target.getPosX() + (random.nextDouble() * 2 - 1) * range;
-                double z = target.getPosZ() + (random.nextDouble() * 2 - 1) * range;
-                double y = target.world.getHeight(net.minecraft.world.gen.Heightmap.Type.WORLD_SURFACE, (int) x, (int) z);
-                target.teleportKeepLoaded(x, y, z);
-            }
-        }
-    }
-    
-    /**
-     * Apply reality distortion effects to the world
-     */
-    private void applyRealityDistortion(World world, PlayerEntity player, double radius) {
-        // Change some blocks temporarily in the area
-        int blocksAffected = 0;
-        int maxBlocks = 20 + random.nextInt(10);
-        
-        for (int x = (int) -radius; x <= radius && blocksAffected < maxBlocks; x += 2) {
-            for (int y = -3; y <= 3 && blocksAffected < maxBlocks; y += 2) {
-                for (int z = (int) -radius; z <= radius && blocksAffected < maxBlocks; z += 2) {
-                    BlockPos pos = new BlockPos(player.getPosX() + x, player.getPosY() + y, player.getPosZ() + z);
-                    
-                    // Check if the block is something we can/should change
-                    if (!world.isAirBlock(pos) && world.getBlockState(pos).getBlockHardness(world, pos) >= 0
-                            && random.nextFloat() < 0.2f) {
-                        // Spawn particles instead of actual block changes for simplicity
-                        if (world instanceof ServerWorld) {
-                            ((ServerWorld) world).spawnParticle(
-                                net.minecraft.particles.ParticleTypes.PORTAL,
-                                pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                                10, 0.4, 0.4, 0.4, 0
-                            );
-                        }
-                        blocksAffected++;
-                    }
-                }
-            }
-        }
-    }
-    
-    @Override
-    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
-        
-        if (!(entityIn instanceof PlayerEntity)) return;
-        
-        // Check if being held or worn in offhand
-        boolean isEquipped = isSelected || 
-                ((PlayerEntity)entityIn).getHeldItemOffhand() == stack;
-        
-        if (isEquipped) {
-            // Passive effects from infection
-            PlayerEntity player = (PlayerEntity) entityIn;
-            
-            // Apply minor infection effects occasionally
-            if (!worldIn.isRemote && worldIn.getGameTime() % 200 == 0) {
-                // Get number of stones to determine infection severity
-                Set<StoneType> stones = getInstalledStones(stack);
-                if (!stones.isEmpty()) {
-                    // Minor effects just from holding the gauntlet
-                    if (random.nextFloat() < 0.3f) {
-                        player.addPotionEffect(new EffectInstance(Effects.HUNGER, 60, 0));
-                    }
-                    
-                    // More stones cause more instability
-                    if (stones.size() >= 3 && random.nextFloat() < 0.2f) {
-                        player.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 100, 0));
-                        player.sendStatusMessage(new StringTextComponent("The infected gauntlet pulses with chaotic energy...")
-                                .mergeStyle(TextFormatting.DARK_PURPLE), true);
-                    }
-                    
-                    // Apply minor infection damage with many stones
-                    if (stones.size() >= 5 && random.nextFloat() < 0.1f) {
-                        player.attackEntityFrom(NanoTechItems.NanoTechDamageSource.INFECTION, 1.0f);
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
-     * Capability provider for the gauntlet's stone slots
+     * Adds information to the tooltip
      */
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-        return new InfectedGauntletCapabilityProvider(stack);
-    }
-    
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        tooltip.add(new StringTextComponent("Infected Infinity Gauntlet")
+                .mergeStyle(TextFormatting.DARK_PURPLE));
         
-        tooltip.add(new StringTextComponent("Infected Infinity Gauntlet").mergeStyle(TextFormatting.DARK_PURPLE, TextFormatting.BOLD));
-        tooltip.add(new StringTextComponent("Corrupted by Nano Tech").mergeStyle(TextFormatting.GRAY));
-        tooltip.add(new StringTextComponent(""));
+        tooltip.add(new StringTextComponent("A corrupted gauntlet with immense but unpredictable power")
+                .mergeStyle(TextFormatting.GRAY));
         
-        // Display installed stones
-        Set<StoneType> stones = getInstalledStones(stack);
+        // Show equipped stones
+        Map<StoneType, Boolean> stones = getStonesInGauntlet(stack);
+        int stoneCount = countStonesInGauntlet(stones);
         
-        if (stones.isEmpty()) {
-            tooltip.add(new StringTextComponent("No Infected Infinity Stones installed").mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new StringTextComponent("Equipped Infected Stones (" + stoneCount + "/6):").mergeStyle(TextFormatting.DARK_GRAY));
+        
+        for (StoneType type : StoneType.values()) {
+            boolean present = stones.getOrDefault(type, false);
+            
+            if (present) {
+                tooltip.add(new StringTextComponent(" ✓ Infected " + type.getDisplayName()).mergeStyle(TextFormatting.DARK_PURPLE));
+            } else {
+                tooltip.add(new StringTextComponent(" ✗ Infected " + type.getDisplayName()).mergeStyle(TextFormatting.DARK_GRAY));
+            }
+        }
+        
+        // Usage and warning
+        if (stoneCount > 0) {
+            tooltip.add(new StringTextComponent("Right-click to use the infected power").mergeStyle(TextFormatting.DARK_PURPLE));
+            tooltip.add(new StringTextComponent("§c§lWARNING: §r§cExtreme side effects likely!").mergeStyle(TextFormatting.RED));
         } else {
-            tooltip.add(new StringTextComponent("Installed Infected Stones:").mergeStyle(TextFormatting.DARK_PURPLE));
-            for (StoneType stone : stones) {
-                tooltip.add(new StringTextComponent(" - " + stone.getName()).mergeStyle(stone.getColor()));
-            }
+            tooltip.add(new StringTextComponent("Add Infected Infinity Stones to unlock powers").mergeStyle(TextFormatting.DARK_GRAY));
         }
         
-        tooltip.add(new StringTextComponent(""));
-        tooltip.add(new StringTextComponent("Right-click: Unleash chaotic power").mergeStyle(TextFormatting.GRAY));
-        tooltip.add(new StringTextComponent(""));
-        tooltip.add(new StringTextComponent("WARNING: Unstable and dangerous").mergeStyle(TextFormatting.DARK_RED));
-        tooltip.add(new StringTextComponent("May cause infection symptoms").mergeStyle(TextFormatting.RED));
-    }
-    
-    /**
-     * Infected Gauntlet Capability Provider
-     */
-    private static class InfectedGauntletCapabilityProvider extends InfinityGauntlet.GauntletCapabilityProvider {
-        public InfectedGauntletCapabilityProvider(ItemStack stack) {
-            super(stack);
-        }
+        super.addInformation(stack, world, tooltip, flag);
     }
 }
