@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Base gauntlet metallic color - darker gold with more detailed structure -->
+  <path d="M3,3 L5,1 L11,1 L13,3 L13,8 L11,13 L5,13 L3,8 Z" fill="#aa7700" stroke="#553300" stroke-width="0.5"/>
+  
+  <!-- Gauntlet shine effects -->
+  <path d="M5,1 L6,2 L10,2 L11,1 Z" fill="#ffcc44" stroke="#aa7700" stroke-width="0.2"/>
+  <path d="M3,3 L4,4 L12,4 L13,3 Z" fill="#ffcc44" stroke="#aa7700" stroke-width="0.2"/>
+  
+  <!-- Gauntlet details -->
+  <path d="M4,4 L4,8 L5,12 L11,12 L12,8 L12,4 Z" fill="#995500" stroke="#553300" stroke-width="0.3"/>
+  <path d="M5,4 L5,8 L6,11 L10,11 L11,8 L11,4 Z" fill="#cc9900" stroke="#996600" stroke-width="0.2"/>
+  
+  <!-- Knuckle details -->
+  <circle cx="6" cy="6" r="0.7" fill="#ddaa22" stroke="#996600" stroke-width="0.2"/>
+  <circle cx="8" cy="6" r="0.7" fill="#ddaa22" stroke="#996600" stroke-width="0.2"/>
+  <circle cx="10" cy="6" r="0.7" fill="#ddaa22" stroke="#996600" stroke-width="0.2"/>
+  
+  <!-- Stone settings for the stones -->
+  <circle cx="4.5" cy="8" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2"/>
+  <circle cx="6" cy="9" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2"/>
+  <circle cx="8" cy="9.5" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2"/>
+  <circle cx="10" cy="9" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2"/>
+  <circle cx="11.5" cy="8" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2"/>
+  <circle cx="8" cy="7" r="0.8" fill="#444444" stroke="#222222" stroke-width="0.2"/>
+  
+  <!-- Embedded stones with glowing effects -->
+  <circle cx="4.5" cy="8" r="0.6" fill="#5050ff">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="6" cy="9" r="0.6" fill="#ffff00">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="2.5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="8" cy="9.5" r="0.6" fill="#ff0000">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="10" cy="9" r="0.6" fill="#9900ff">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3.5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="11.5" cy="8" r="0.6" fill="#00cc00">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="2.8s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="8" cy="7" r="0.6" fill="#ff9900">
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3.2s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Energy connections between stones -->
+  <line x1="4.5" y1="8" x2="6" y2="9" stroke="#ffffff" stroke-width="0.2" opacity="0.6">
+    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />
+  </line>
+  <line x1="6" y1="9" x2="8" y2="9.5" stroke="#ffffff" stroke-width="0.2" opacity="0.6">
+    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />
+  </line>
+  <line x1="8" y1="9.5" x2="10" y2="9" stroke="#ffffff" stroke-width="0.2" opacity="0.6">
+    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />
+  </line>
+  <line x1="10" y1="9" x2="11.5" y2="8" stroke="#ffffff" stroke-width="0.2" opacity="0.6">
+    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />
+  </line>
+  <line x1="11.5" y1="8" x2="8" y2="7" stroke="#ffffff" stroke-width="0.2" opacity="0.6">
+    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />
+  </line>
+  <line x1="8" y1="7" x2="4.5" y2="8" stroke="#ffffff" stroke-width="0.2" opacity="0.6">
+    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />
+  </line>
+  
+  <!-- Gauntlet outer glowing effect to show its advanced nature -->
+  <path d="M3,3 L5,1 L11,1 L13,3 L13,8 L11,13 L5,13 L3,8 Z" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.6">
+    <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" repeatCount="indefinite" />
+  </path>
+  
+  <!-- Central power core -->
+  <circle cx="8" cy="8" r="0.3" fill="#ffffff">
+    <animate attributeName="r" values="0.2;0.4;0.2" dur="1.5s" repeatCount="indefinite" />
+  </circle>
+</svg>

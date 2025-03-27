@@ -12,6 +12,10 @@ import com.infinitystones.items.SkiddzieSpecialItems.GravityHammer;
 import com.infinitystones.items.SkiddzieSpecialItems.LightningRod;
 import com.infinitystones.items.RowanLuckyBlock;
 import com.infinitystones.items.RowanLuckyBlock.RowanLuckyBlockItem;
+import com.infinitystones.items.AdvancedInfinityGauntlet;
+import com.infinitystones.items.NanoTechItems.NanoTechArmorItem;
+import com.infinitystones.items.NanoTechItems.NanoTechCore;
+import com.infinitystones.items.NanoTechItems.NanoTechSword;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
@@ -52,6 +56,11 @@ public class ModItems {
     public static final RegistryObject<Item> INFINITY_GAUNTLET = ITEMS.register(
             "infinity_gauntlet",
             () -> new InfinityGauntlet());
+            
+    // Advanced Infinity Gauntlet with combined powers
+    public static final RegistryObject<Item> ADVANCED_INFINITY_GAUNTLET = ITEMS.register(
+            "advanced_infinity_gauntlet",
+            () -> new AdvancedInfinityGauntlet());
     
     // Base Insane Craft Items
     public static final RegistryObject<Item> ULTIMATE_INGOT = ITEMS.register(
@@ -173,4 +182,29 @@ public class ModItems {
     public static final RegistryObject<Item> ROWAN_LUCKY_BLOCK_ITEM = ITEMS.register(
             "rowan_lucky_block",
             () -> new RowanLuckyBlockItem(ROWAN_LUCKY_BLOCK.get()));
+            
+    // Infected Nano Tech items
+    public static final RegistryObject<Item> NANO_TECH_CORE = ITEMS.register(
+            "nano_tech_core",
+            NanoTechCore::new);
+            
+    public static final RegistryObject<Item> NANO_TECH_HELMET = ITEMS.register(
+            "nano_tech_helmet",
+            () -> new NanoTechArmorItem(EquipmentSlotType.HEAD));
+            
+    public static final RegistryObject<Item> NANO_TECH_ARMOR = ITEMS.register(
+            "nano_tech_armor",
+            () -> new NanoTechArmorItem(EquipmentSlotType.CHEST));
+            
+    public static final RegistryObject<Item> NANO_TECH_LEGGINGS = ITEMS.register(
+            "nano_tech_leggings",
+            () -> new NanoTechArmorItem(EquipmentSlotType.LEGS));
+            
+    public static final RegistryObject<Item> NANO_TECH_BOOTS = ITEMS.register(
+            "nano_tech_boots",
+            () -> new NanoTechArmorItem(EquipmentSlotType.FEET));
+            
+    public static final RegistryObject<Item> NANO_TECH_SWORD = ITEMS.register(
+            "nano_tech_sword",
+            NanoTechSword::new);
 }

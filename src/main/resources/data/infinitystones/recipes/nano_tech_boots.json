@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "N N",
+    "NCN"
+  ],
+  "key": {
+    "N": {
+      "item": "infinitystones:nano_tech_core"
+    },
+    "C": {
+      "item": "minecraft:netherite_boots"
+    }
+  },
+  "result": {
+    "item": "infinitystones:nano_tech_boots",
+    "count": 1
+  }
+}
