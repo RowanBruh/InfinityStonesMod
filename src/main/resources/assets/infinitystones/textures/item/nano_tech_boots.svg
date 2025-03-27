@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Boot -->
+  <path d="M3 11V8H7V11H3Z" fill="#A0A0A0" stroke="#606060" stroke-width="0.2"/>
+  <path d="M3 11H7V12H3V11Z" fill="#808080" stroke="#404040" stroke-width="0.2"/>
+  
+  <!-- Right Boot -->
+  <path d="M9 11V8H13V11H9Z" fill="#A0A0A0" stroke="#606060" stroke-width="0.2"/>
+  <path d="M9 11H13V12H9V11Z" fill="#808080" stroke="#404040" stroke-width="0.2"/>
+  
+  <!-- Tech Lines Left -->
+  <path d="M4 9V11" stroke="#00FFFF" stroke-width="0.5"/>
+  <path d="M6 9V11" stroke="#00FFFF" stroke-width="0.5"/>
+  <path d="M4 10H6" stroke="#00FFFF" stroke-width="0.5"/>
+  
+  <!-- Tech Lines Right -->
+  <path d="M10 9V11" stroke="#00FFFF" stroke-width="0.5"/>
+  <path d="M12 9V11" stroke="#00FFFF" stroke-width="0.5"/>
+  <path d="M10 10H12" stroke="#00FFFF" stroke-width="0.5"/>
+  
+  <!-- Energy Cores -->
+  <circle cx="5" cy="10" r="0.6" fill="#00A0FF"/>
+  <circle cx="11" cy="10" r="0.6" fill="#00A0FF"/>
+  
+  <!-- Edge Highlights -->
+  <path d="M3.5 8.5V11.5" stroke="#E0E0E0" stroke-width="0.2"/>
+  <path d="M9.5 8.5V11.5" stroke="#E0E0E0" stroke-width="0.2"/>
+</svg>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle (metallic rim with corruption) -->
+  <circle cx="8" cy="8" r="7.5" fill="#B0B0B0" stroke="#500050" stroke-width="0.8"/>
+  
+  <!-- Inner core (corrupted purple energy) -->
+  <circle cx="8" cy="8" r="5" fill="#800080"/>
+  
+  <!-- Infected circuit pattern -->
+  <path d="M8 3.5V12.5M5 8H11M6 5.5L10 10.5M10 5.5L6 10.5" stroke="#FF00FF" stroke-width="0.5"/>
+  
+  <!-- Corruption effect -->
+  <path d="M3.5 8.5C5 7 6.5 9 8 7.5C9.5 6 11 8 12.5 6.5" stroke="#FF00FF" stroke-width="0.7" stroke-opacity="0.6"/>
+  <path d="M3.5 9.5C5 8 6.5 10 8 8.5C9.5 7 11 9 12.5 7.5" stroke="#FF00FF" stroke-width="0.7" stroke-opacity="0.6"/>
+  
+  <!-- Infected glow -->
+  <circle cx="8" cy="8" r="3" fill="#FF80FF" fill-opacity="0.3"/>
+  
+  <!-- Corruption spots -->
+  <circle cx="10" cy="5" r="0.8" fill="#FF00FF" fill-opacity="0.7"/>
+  <circle cx="6" cy="10" r="0.8" fill="#FF00FF" fill-opacity="0.7"/>
+  <circle cx="8" cy="7" r="0.5" fill="#FF00FF" fill-opacity="0.8"/>
+</svg>

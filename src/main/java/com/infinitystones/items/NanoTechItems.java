@@ -1,242 +1,207 @@
 package com.infinitystones.items;
 
 import com.infinitystones.InfinityStonesMod;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.*;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import com.infinitystones.items.custom.NanoTechArmorItem;
+import com.infinitystones.items.custom.NanoTechCoreItem;
+import com.infinitystones.items.custom.NanoTechPickaxeItem;
+import com.infinitystones.items.custom.NanoTechSwordItem;
+import com.infinitystones.registry.ModCreativeTabs;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
-/**
- * Implements the Infected Nano Tech items from Insane Craft
- */
 public class NanoTechItems {
-    private static final Random random = new Random();
+    // DeferredRegister for items
+    public static final DeferredRegister<Item> ITEMS = 
+            DeferredRegister.create(ForgeRegistries.ITEMS, InfinityStonesMod.MOD_ID);
     
-    /**
-     * Nano Tech Core - crafting component and activator
-     */
-    public static class NanoTechCore extends Item {
-        public NanoTechCore() {
-            super(new Item.Properties()
-                    .group(InfinityStonesMod.ROWAN_INDUSTRIES)
-                    .maxStackSize(16)
-                    .rarity(Rarity.RARE));
-        }
-        
-        @Override
-        public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-            ItemStack stack = playerIn.getHeldItem(handIn);
-            
-            if (!worldIn.isRemote) {
-                // Gives nausea and slowness briefly - it's infected tech!
-                playerIn.addPotionEffect(new EffectInstance(Effects.NAUSEA, 100, 0));
-                playerIn.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 60, 0));
-                
-                // But also grants temporary strength
-                playerIn.addPotionEffect(new EffectInstance(Effects.STRENGTH, 300, 1));
-                
-                // Play sound effect
-                worldIn.playSound(null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(),
-                        SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 0.5F, 0.8F);
-                
-                // Consume one core
-                if (!playerIn.abilities.isCreativeMode) {
-                    stack.shrink(1);
-                }
-            }
-            
-            return ActionResult.resultSuccess(stack);
-        }
-        
-        @OnlyIn(Dist.CLIENT)
-        @Override
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            tooltip.add(new StringTextComponent("A corrupted nano-technology core").mergeStyle(TextFormatting.DARK_PURPLE));
-            tooltip.add(new StringTextComponent("Right-click to gain temporary strength").mergeStyle(TextFormatting.GRAY));
-            tooltip.add(new StringTextComponent("Warning: Side effects include nausea").mergeStyle(TextFormatting.RED));
-        }
+    // Custom armor materials
+    public static final ArmorMaterial NANO_TECH_ARMOR_MATERIAL = new NanoTechArmorMaterial(
+            "nano_tech",
+            35, // durability multiplier
+            new int[] {3, 6, 8, 3}, // protection values
+            18, // enchantability
+            SoundEvents.ARMOR_EQUIP_NETHERITE, // equip sound
+            1.0f, // toughness
+            0.0f, // knockback resistance
+            Ingredient.EMPTY // repair ingredient - will be set in recipe
+    );
+    
+    public static final ArmorMaterial INFECTED_NANO_TECH_ARMOR_MATERIAL = new NanoTechArmorMaterial(
+            "infected_nano_tech",
+            40, // durability multiplier
+            new int[] {4, 7, 9, 4}, // protection values
+            15, // enchantability
+            SoundEvents.ARMOR_EQUIP_NETHERITE, // equip sound
+            2.0f, // toughness
+            0.1f, // knockback resistance
+            Ingredient.EMPTY // repair ingredient - will be set in recipe
+    );
+    
+    // Regular Nano Tech items
+    public static final RegistryObject<Item> NANO_TECH_CORE = ITEMS.register("nano_tech_core",
+            () -> new NanoTechCoreItem(defaultItemProps().rarity(Rarity.UNCOMMON), false));
+    
+    public static final RegistryObject<Item> NANO_TECH_SWORD = ITEMS.register("nano_tech_sword",
+            () -> new NanoTechSwordItem(Tiers.NETHERITE, 5, -2.4f, defaultItemProps().rarity(Rarity.UNCOMMON), false));
+    
+    public static final RegistryObject<Item> NANO_TECH_PICKAXE = ITEMS.register("nano_tech_pickaxe",
+            () -> new NanoTechPickaxeItem(Tiers.NETHERITE, 1, -2.8f, defaultItemProps().rarity(Rarity.UNCOMMON), false));
+    
+    // Nano Tech Armor
+    public static final RegistryObject<Item> NANO_TECH_HELMET = ITEMS.register("nano_tech_helmet",
+            () -> new NanoTechArmorItem(NANO_TECH_ARMOR_MATERIAL, EquipmentSlot.HEAD, 
+                    defaultItemProps().rarity(Rarity.UNCOMMON), false));
+    
+    public static final RegistryObject<Item> NANO_TECH_CHESTPLATE = ITEMS.register("nano_tech_chestplate",
+            () -> new NanoTechArmorItem(NANO_TECH_ARMOR_MATERIAL, EquipmentSlot.CHEST, 
+                    defaultItemProps().rarity(Rarity.UNCOMMON), false));
+    
+    public static final RegistryObject<Item> NANO_TECH_LEGGINGS = ITEMS.register("nano_tech_leggings",
+            () -> new NanoTechArmorItem(NANO_TECH_ARMOR_MATERIAL, EquipmentSlot.LEGS, 
+                    defaultItemProps().rarity(Rarity.UNCOMMON), false));
+    
+    public static final RegistryObject<Item> NANO_TECH_BOOTS = ITEMS.register("nano_tech_boots",
+            () -> new NanoTechArmorItem(NANO_TECH_ARMOR_MATERIAL, EquipmentSlot.FEET, 
+                    defaultItemProps().rarity(Rarity.UNCOMMON), false));
+    
+    // Infected Nano Tech items
+    public static final RegistryObject<Item> INFECTED_NANO_TECH_CORE = ITEMS.register("infected_nano_tech_core",
+            () -> new NanoTechCoreItem(defaultItemProps().rarity(Rarity.RARE), true));
+    
+    public static final RegistryObject<Item> INFECTED_NANO_TECH_SWORD = ITEMS.register("infected_nano_tech_sword",
+            () -> new NanoTechSwordItem(Tiers.NETHERITE, 8, -2.2f, defaultItemProps().rarity(Rarity.RARE), true));
+    
+    public static final RegistryObject<Item> INFECTED_NANO_TECH_PICKAXE = ITEMS.register("infected_nano_tech_pickaxe",
+            () -> new NanoTechPickaxeItem(Tiers.NETHERITE, 2, -2.6f, defaultItemProps().rarity(Rarity.RARE), true));
+    
+    // Infected Nano Tech Armor
+    public static final RegistryObject<Item> INFECTED_NANO_TECH_HELMET = ITEMS.register("infected_nano_tech_helmet",
+            () -> new NanoTechArmorItem(INFECTED_NANO_TECH_ARMOR_MATERIAL, EquipmentSlot.HEAD, 
+                    defaultItemProps().rarity(Rarity.RARE), true));
+    
+    public static final RegistryObject<Item> INFECTED_NANO_TECH_CHESTPLATE = ITEMS.register("infected_nano_tech_chestplate",
+            () -> new NanoTechArmorItem(INFECTED_NANO_TECH_ARMOR_MATERIAL, EquipmentSlot.CHEST, 
+                    defaultItemProps().rarity(Rarity.RARE), true));
+    
+    public static final RegistryObject<Item> INFECTED_NANO_TECH_LEGGINGS = ITEMS.register("infected_nano_tech_leggings",
+            () -> new NanoTechArmorItem(INFECTED_NANO_TECH_ARMOR_MATERIAL, EquipmentSlot.LEGS, 
+                    defaultItemProps().rarity(Rarity.RARE), true));
+    
+    public static final RegistryObject<Item> INFECTED_NANO_TECH_BOOTS = ITEMS.register("infected_nano_tech_boots",
+            () -> new NanoTechArmorItem(INFECTED_NANO_TECH_ARMOR_MATERIAL, EquipmentSlot.FEET, 
+                    defaultItemProps().rarity(Rarity.RARE), true));
+    
+    private static Item.Properties defaultItemProps() {
+        return new Item.Properties();
     }
     
     /**
-     * Nano Tech Armor base class
+     * Register this class with the event bus
      */
-    public static class NanoTechArmorItem extends ArmorItem {
-        public NanoTechArmorItem(EquipmentSlotType slot) {
-            super(new NanoTechArmorMaterial(),
-                  slot,
-                  new Item.Properties()
-                    .group(InfinityStonesMod.ROWAN_INDUSTRIES)
-                    .maxStackSize(1)
-                    .rarity(Rarity.EPIC));
-        }
-        
-        @Override
-        public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-            super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
-            
-            // Check if player is wearing armor
-            if (entityIn instanceof PlayerEntity && !worldIn.isRemote) {
-                PlayerEntity player = (PlayerEntity) entityIn;
-                
-                if (isWearingFullNanoTechSet(player)) {
-                    // Full set bonus - apply every 5 seconds
-                    if (worldIn.getGameTime() % 100 == 0) {
-                        player.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 120, 1, false, false));
-                        player.addPotionEffect(new EffectInstance(Effects.STRENGTH, 120, 0, false, false));
-                        
-                        // Infected tech occasionally causes damage
-                        if (random.nextFloat() < 0.05f) {
-                            player.attackEntityFrom(NanoTechDamageSource.INFECTION, 1.0f);
-                            player.addPotionEffect(new EffectInstance(Effects.NAUSEA, 80, 0));
-                        }
-                    }
-                }
-            }
-        }
-        
-        private boolean isWearingFullNanoTechSet(PlayerEntity player) {
-            ItemStack helmet = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-            ItemStack chest = player.getItemStackFromSlot(EquipmentSlotType.CHEST);
-            ItemStack legs = player.getItemStackFromSlot(EquipmentSlotType.LEGS);
-            ItemStack feet = player.getItemStackFromSlot(EquipmentSlotType.FEET);
-            
-            return helmet.getItem() instanceof NanoTechArmorItem &&
-                   chest.getItem() instanceof NanoTechArmorItem &&
-                   legs.getItem() instanceof NanoTechArmorItem &&
-                   feet.getItem() instanceof NanoTechArmorItem;
-        }
-        
-        @OnlyIn(Dist.CLIENT)
-        @Override
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            tooltip.add(new StringTextComponent("Infected Nano Tech Armor").mergeStyle(TextFormatting.DARK_PURPLE));
-            tooltip.add(new StringTextComponent("Full set: Resistance II, Strength I").mergeStyle(TextFormatting.BLUE));
-            tooltip.add(new StringTextComponent("Warning: May cause infection damage").mergeStyle(TextFormatting.RED));
-        }
+    public static void register(IEventBus eventBus) {
+        ITEMS.register(eventBus);
     }
     
     /**
-     * Nano Tech custom sword
+     * Adds items to the creative mode tabs
      */
-    public static class NanoTechSword extends SwordItem {
-        public NanoTechSword() {
-            super(ItemTier.NETHERITE, 
-                  8, // 8 damage + 4 base = 12 attack damage
-                  -2.0f, // slightly faster attack speed
-                  new Item.Properties()
-                    .group(InfinityStonesMod.ROWAN_INDUSTRIES)
-                    .maxStackSize(1)
-                    .rarity(Rarity.EPIC));
-        }
+    public static void addItemsToTabs() {
+        // Add regular Nano Tech items to Bonc's Items tab
+        ModCreativeTabs.addToTab(ModCreativeTabs.BONCS_ITEMS_TAB, NANO_TECH_CORE.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.BONCS_ITEMS_TAB, NANO_TECH_SWORD.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.BONCS_ITEMS_TAB, NANO_TECH_PICKAXE.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.BONCS_ITEMS_TAB, NANO_TECH_HELMET.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.BONCS_ITEMS_TAB, NANO_TECH_CHESTPLATE.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.BONCS_ITEMS_TAB, NANO_TECH_LEGGINGS.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.BONCS_ITEMS_TAB, NANO_TECH_BOOTS.get());
         
-        @Override
-        public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-            // Apply special infected damage effects
-            if (random.nextFloat() < 0.3f) {
-                target.addPotionEffect(new EffectInstance(Effects.POISON, 100, 1));
-            }
-            
-            if (random.nextFloat() < 0.2f) {
-                target.addPotionEffect(new EffectInstance(Effects.WITHER, 60, 0));
-            }
-            
-            // Infected tech occasionally causes damage to user
-            if (random.nextFloat() < 0.05f && attacker instanceof PlayerEntity) {
-                attacker.attackEntityFrom(NanoTechDamageSource.INFECTION, 1.0f);
-                attacker.addPotionEffect(new EffectInstance(Effects.NAUSEA, 60, 0));
-            }
-            
-            return super.hitEntity(stack, target, attacker);
-        }
-        
-        @OnlyIn(Dist.CLIENT)
-        @Override
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            tooltip.add(new StringTextComponent("Infected Nano Tech Sword").mergeStyle(TextFormatting.DARK_PURPLE));
-            tooltip.add(new StringTextComponent("30% chance to poison enemies").mergeStyle(TextFormatting.GREEN));
-            tooltip.add(new StringTextComponent("20% chance to wither enemies").mergeStyle(TextFormatting.GRAY));
-            tooltip.add(new StringTextComponent("Warning: May cause infection damage").mergeStyle(TextFormatting.RED));
-        }
+        // Add infected Nano Tech items to Rowan Industries tab
+        ModCreativeTabs.addToTab(ModCreativeTabs.ROWAN_INDUSTRIES_TAB, INFECTED_NANO_TECH_CORE.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.ROWAN_INDUSTRIES_TAB, INFECTED_NANO_TECH_SWORD.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.ROWAN_INDUSTRIES_TAB, INFECTED_NANO_TECH_PICKAXE.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.ROWAN_INDUSTRIES_TAB, INFECTED_NANO_TECH_HELMET.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.ROWAN_INDUSTRIES_TAB, INFECTED_NANO_TECH_CHESTPLATE.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.ROWAN_INDUSTRIES_TAB, INFECTED_NANO_TECH_LEGGINGS.get());
+        ModCreativeTabs.addToTab(ModCreativeTabs.ROWAN_INDUSTRIES_TAB, INFECTED_NANO_TECH_BOOTS.get());
     }
     
     /**
-     * Custom armor material for Nano Tech
+     * Custom armor material implementation for Nano Tech armor
      */
-    public static class NanoTechArmorMaterial implements IArmorMaterial {
-        private static final int[] DURABILITY = new int[]{480, 560, 600, 420};
-        private static final int[] PROTECTION = new int[]{4, 7, 9, 4};
+    private static class NanoTechArmorMaterial implements ArmorMaterial {
+        private static final int[] HEALTH_PER_SLOT = new int[] {13, 15, 16, 11};
+        private final String name;
+        private final int durabilityMultiplier;
+        private final int[] protectionAmounts;
+        private final int enchantability;
+        private final net.minecraft.sounds.SoundEvent equipSound;
+        private final float toughness;
+        private final float knockbackResistance;
+        private final Ingredient repairIngredient;
         
-        @Override
-        public int getDurability(EquipmentSlotType slotIn) {
-            return DURABILITY[slotIn.getIndex()];
+        public NanoTechArmorMaterial(String name, int durabilityMultiplier, int[] protectionAmounts, 
+                int enchantability, net.minecraft.sounds.SoundEvent equipSound, float toughness, 
+                float knockbackResistance, Ingredient repairIngredient) {
+            this.name = name;
+            this.durabilityMultiplier = durabilityMultiplier;
+            this.protectionAmounts = protectionAmounts;
+            this.enchantability = enchantability;
+            this.equipSound = equipSound;
+            this.toughness = toughness;
+            this.knockbackResistance = knockbackResistance;
+            this.repairIngredient = repairIngredient;
         }
         
         @Override
-        public int getDamageReductionAmount(EquipmentSlotType slotIn) {
-            return PROTECTION[slotIn.getIndex()];
+        public int getDurabilityForSlot(EquipmentSlot slot) {
+            return HEALTH_PER_SLOT[slot.getIndex()] * this.durabilityMultiplier;
         }
         
         @Override
-        public int getEnchantability() {
-            return 15;
+        public int getDefenseForSlot(EquipmentSlot slot) {
+            return this.protectionAmounts[slot.getIndex()];
         }
         
         @Override
-        public net.minecraft.util.SoundEvent getSoundEvent() {
-            return SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE;
+        public int getEnchantmentValue() {
+            return this.enchantability;
         }
         
         @Override
-        public net.minecraft.item.crafting.Ingredient getRepairMaterial() {
-            return net.minecraft.item.crafting.Ingredient.fromItems(ModItems.NANO_TECH_CORE.get());
+        public net.minecraft.sounds.SoundEvent getEquipSound() {
+            return this.equipSound;
+        }
+        
+        @Override
+        public Ingredient getRepairIngredient() {
+            return this.repairIngredient;
         }
         
         @Override
         public String getName() {
-            return "infinitystones:nano_tech";
+            return InfinityStonesMod.MOD_ID + ":" + this.name;
         }
         
         @Override
         public float getToughness() {
-            return 3.0F;
+            return this.toughness;
         }
         
         @Override
         public float getKnockbackResistance() {
-            return 0.1F;
-        }
-    }
-    
-    /**
-     * Custom damage source for nano tech infection
-     */
-    public static class NanoTechDamageSource extends net.minecraft.util.DamageSource {
-        public static final NanoTechDamageSource INFECTION = new NanoTechDamageSource();
-        
-        private NanoTechDamageSource() {
-            super("nano_tech_infection");
-            this.setDamageBypassesArmor();
-        }
-        
-        @Override
-        public ITextComponent getDeathMessage(LivingEntity entity) {
-            return new StringTextComponent(entity.getName().getString() + " was consumed by nano tech infection");
+            return this.knockbackResistance;
         }
     }
 }

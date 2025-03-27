@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "NNN",
-    "NCN",
+    "NLN",
     "N N"
   ],
   "key": {
     "N": {
       "item": "infinitystones:nano_tech_core"
     },
-    "C": {
+    "L": {
       "item": "minecraft:netherite_leggings"
     }
   },

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Handle (corrupted) -->
+  <rect x="7" y="10" width="2" height="5" fill="#505050" stroke="#500050" stroke-width="0.2"/>
+  
+  <!-- Guard (corrupted) -->
+  <rect x="5" y="9" width="6" height="1" fill="#707070" stroke="#600060" stroke-width="0.2"/>
+  
+  <!-- Blade (corrupted) -->
+  <path d="M8 1L10 9H6L8 1Z" fill="#A0A0A0" stroke="#800080" stroke-width="0.2"/>
+  
+  <!-- Corruption spots -->
+  <circle cx="9" cy="4" r="0.7" fill="#FF00FF" fill-opacity="0.7"/>
+  <circle cx="7" cy="6" r="0.7" fill="#FF00FF" fill-opacity="0.7"/>
+  <circle cx="8.5" cy="8" r="0.6" fill="#FF00FF" fill-opacity="0.7"/>
+  
+  <!-- Energy Core (corrupted) -->
+  <circle cx="8" cy="7" r="1" fill="#800080"/>
+  
+  <!-- Energy Lines (corrupted) -->
+  <path d="M8 2L8 8" stroke="#FF00FF" stroke-width="0.5"/>
+  <path d="M7 5L9 5" stroke="#FF00FF" stroke-width="0.5"/>
+  <path d="M7 3L9 3" stroke="#FF00FF" stroke-width="0.5"/>
+  
+  <!-- Corruption aura -->
+  <path d="M6.5 2C7.5 3 8.5 2.5 9.5 3.5" stroke="#FF00FF" stroke-width="0.3" stroke-opacity="0.6"/>
+  <path d="M6.5 3C7.5 4 8.5 3.5 9.5 4.5" stroke="#FF00FF" stroke-width="0.3" stroke-opacity="0.6"/>
+  
+  <!-- Edge Highlight (corrupted) -->
+  <path d="M7.5 1.5L9.5 9" stroke="#FF80FF" stroke-width="0.2"/>
+</svg>

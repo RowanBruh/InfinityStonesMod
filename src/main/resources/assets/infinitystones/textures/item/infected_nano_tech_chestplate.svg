@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Chestplate Base (corrupted) -->
+  <path d="M4 3H12V11H4V3Z" fill="#A0A0A0" stroke="#800080" stroke-width="0.3"/>
+  
+  <!-- Shoulder Plates (corrupted) -->
+  <path d="M3 3H4V6H3V3Z" fill="#A0A0A0" stroke="#800080" stroke-width="0.3"/>
+  <path d="M12 3H13V6H12V3Z" fill="#A0A0A0" stroke="#800080" stroke-width="0.3"/>
+  
+  <!-- Tech Lines (corrupted) -->
+  <path d="M6 4H10M6 10H10" stroke="#FF00FF" stroke-width="0.5"/>
+  <path d="M8 4V10" stroke="#FF00FF" stroke-width="0.5"/>
+  <path d="M5 7H11" stroke="#FF00FF" stroke-width="0.5"/>
+  
+  <!-- Corruption spots -->
+  <circle cx="6" cy="5" r="0.7" fill="#FF00FF" fill-opacity="0.7"/>
+  <circle cx="10" cy="5" r="0.7" fill="#FF00FF" fill-opacity="0.7"/>
+  <circle cx="8" cy="9" r="0.6" fill="#FF00FF" fill-opacity="0.7"/>
+  
+  <!-- Energy Core (corrupted) -->
+  <circle cx="8" cy="7" r="1" fill="#800080"/>
+  
+  <!-- Corruption aura -->
+  <path d="M5 5C7 6 9 5 11 6" stroke="#FF00FF" stroke-width="0.3" stroke-opacity="0.6"/>
+  <path d="M5 6C7 7 9 6 11 7" stroke="#FF00FF" stroke-width="0.3" stroke-opacity="0.6"/>
+  
+  <!-- Additional Tech Details (corrupted) -->
+  <rect x="6" y="5" width="4" height="4" rx="0.5" stroke="#FF00FF" stroke-width="0.5" fill="none"/>
+  
+  <!-- Edge Highlights (corrupted) -->
+  <path d="M4.5 3.5H11.5" stroke="#FF80FF" stroke-width="0.2"/>
+  <path d="M4.5 3.5V10.5" stroke="#FF80FF" stroke-width="0.2"/>
+  <path d="M11.5 3.5V10.5" stroke="#FF80FF" stroke-width="0.2"/>
+</svg>

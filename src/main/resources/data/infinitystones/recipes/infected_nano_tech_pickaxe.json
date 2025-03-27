@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WIW",
+    "WPW",
+    "WIW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wither_rose"
+    },
+    "I": {
+      "item": "infinitystones:infected_nano_tech_core"
+    },
+    "P": {
+      "item": "infinitystones:nano_tech_pickaxe"
+    }
+  },
+  "result": {
+    "item": "infinitystones:infected_nano_tech_pickaxe",
+    "count": 1
+  }
+}

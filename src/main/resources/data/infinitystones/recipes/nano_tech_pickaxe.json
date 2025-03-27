@@ -2,19 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "NNN",
-    "NHN",
-    "   "
+    " P ",
+    " S "
   ],
   "key": {
     "N": {
       "item": "infinitystones:nano_tech_core"
     },
-    "H": {
-      "item": "minecraft:netherite_helmet"
+    "P": {
+      "item": "minecraft:netherite_pickaxe"
+    },
+    "S": {
+      "item": "minecraft:stick"
     }
   },
   "result": {
-    "item": "infinitystones:nano_tech_helmet",
+    "item": "infinitystones:nano_tech_pickaxe",
     "count": 1
   }
 }

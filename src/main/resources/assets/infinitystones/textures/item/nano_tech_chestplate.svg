@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Chestplate Base -->
+  <path d="M4 3H12V11H4V3Z" fill="#A0A0A0" stroke="#606060" stroke-width="0.2"/>
+  
+  <!-- Shoulder Plates -->
+  <path d="M3 3H4V6H3V3Z" fill="#A0A0A0" stroke="#606060" stroke-width="0.2"/>
+  <path d="M12 3H13V6H12V3Z" fill="#A0A0A0" stroke="#606060" stroke-width="0.2"/>
+  
+  <!-- Tech Lines -->
+  <path d="M6 4H10M6 10H10" stroke="#00FFFF" stroke-width="0.5"/>
+  <path d="M8 4V10" stroke="#00FFFF" stroke-width="0.5"/>
+  <path d="M5 7H11" stroke="#00FFFF" stroke-width="0.5"/>
+  
+  <!-- Energy Core -->
+  <circle cx="8" cy="7" r="1" fill="#00A0FF"/>
+  
+  <!-- Additional Tech Details -->
+  <rect x="6" y="5" width="4" height="4" rx="0.5" stroke="#00FFFF" stroke-width="0.5" fill="none"/>
+  
+  <!-- Edge Highlights -->
+  <path d="M4.5 3.5H11.5" stroke="#E0E0E0" stroke-width="0.2"/>
+  <path d="M4.5 3.5V10.5" stroke="#E0E0E0" stroke-width="0.2"/>
+  <path d="M11.5 3.5V10.5" stroke="#E0E0E0" stroke-width="0.2"/>
+</svg>

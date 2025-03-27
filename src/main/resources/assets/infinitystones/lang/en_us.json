@@ -1,23 +1,39 @@
 {
-  "itemGroup.infinitystones": "Infinity Stones",
-  
-  "item.infinitystones.zeus_lightning_bolt": "Zeus's Lightning Bolt",
-  "item.infinitystones.poseidon_trident": "Poseidon's Trident",
-  "item.infinitystones.hades_bident": "Hades' Bident",
-  "item.infinitystones.artemis_bow": "Artemis' Bow",
-  "item.infinitystones.apollo_lyre": "Apollo's Lyre",
-  "item.infinitystones.athena_spear": "Athena's Spear",
-  "item.infinitystones.ares_sword": "Ares' Sword",
-  "item.infinitystones.hermes_boots": "Hermes' Winged Boots",
-  
-  "key.categories.infinitystones": "Infinity Stones Mod",
-  "key.infinitystones.activateFlight": "Activate Hermes Flight",
-  
-  "death.attack.godpower.zeus": "%1$s was struck down by Zeus's lightning",
-  "death.attack.godpower.poseidon": "%1$s was swept away by Poseidon's rage",
-  "death.attack.godpower.hades": "%1$s was claimed by the underworld",
-  "death.attack.godpower.artemis": "%1$s was hunted by Artemis",
-  "death.attack.godpower.apollo": "%1$s was judged by Apollo's light",
-  "death.attack.godpower.athena": "%1$s was outmatched by Athena's wisdom",
-  "death.attack.godpower.ares": "%1$s was slain in battle by Ares"
+  "item.infinitystones.nano_tech_core": "Nano Tech Core",
+  "item.infinitystones.nano_tech_sword": "Nano Tech Sword",
+  "item.infinitystones.nano_tech_pickaxe": "Nano Tech Pickaxe",
+  "item.infinitystones.nano_tech_helmet": "Nano Tech Helmet",
+  "item.infinitystones.nano_tech_chestplate": "Nano Tech Chestplate",
+  "item.infinitystones.nano_tech_leggings": "Nano Tech Leggings",
+  "item.infinitystones.nano_tech_boots": "Nano Tech Boots",
+
+  "item.infinitystones.infected_nano_tech_core": "Infected Nano Tech Core",
+  "item.infinitystones.infected_nano_tech_sword": "Infected Nano Tech Sword",
+  "item.infinitystones.infected_nano_tech_pickaxe": "Infected Nano Tech Pickaxe",
+  "item.infinitystones.infected_nano_tech_helmet": "Infected Nano Tech Helmet",
+  "item.infinitystones.infected_nano_tech_chestplate": "Infected Nano Tech Chestplate",
+  "item.infinitystones.infected_nano_tech_leggings": "Infected Nano Tech Leggings",
+  "item.infinitystones.infected_nano_tech_boots": "Infected Nano Tech Boots",
+
+  "tooltip.infinitystones.nano_core.desc": "A high-tech core used to craft Nano Tech equipment",
+  "tooltip.infinitystones.nano_sword.desc": "Advanced blade with energy enhancements",
+  "tooltip.infinitystones.nano_pickaxe.desc": "High-efficiency mining tool with energy assistance",
+  "tooltip.infinitystones.nano_helmet.desc": "Enhances vision and provides breathing assistance",
+  "tooltip.infinitystones.nano_chestplate.desc": "Reinforced protection with energy distribution",
+  "tooltip.infinitystones.nano_leggings.desc": "Improves mobility and protection",
+  "tooltip.infinitystones.nano_boots.desc": "Reduces fall damage and enhances stability",
+
+  "tooltip.infinitystones.infected_nano_core.desc": "A corrupted core with enhanced but unstable power",
+  "tooltip.infinitystones.infected_nano_sword.desc": "Corrupted blade with devastating power",
+  "tooltip.infinitystones.infected_nano_pickaxe.desc": "Corrupted mining tool with extreme efficiency",
+  "tooltip.infinitystones.infected_nano_helmet.desc": "Corrupted helmet with enhanced sensory capabilities",
+  "tooltip.infinitystones.infected_nano_chestplate.desc": "Corrupted armor with superior protection",
+  "tooltip.infinitystones.infected_nano_leggings.desc": "Corrupted leggings with enhanced mobility",
+  "tooltip.infinitystones.infected_nano_boots.desc": "Corrupted boots with impact absorption",
+
+  "tooltip.infinitystones.infected_warning": "WARNING: Contains unstable energy that may harm the user",
+
+  "itemGroup.infinitystones.rowan_industries": "Rowan Industries",
+  "itemGroup.infinitystones.boncs_items": "Bonc's Items",
+  "itemGroup.infinitystones.infinity_stones": "Infinity Stones"
 }

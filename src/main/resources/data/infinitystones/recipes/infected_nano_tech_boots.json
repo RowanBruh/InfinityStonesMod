@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WIW",
+    "IBI",
+    "WIW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wither_rose"
+    },
+    "I": {
+      "item": "infinitystones:infected_nano_tech_core"
+    },
+    "B": {
+      "item": "infinitystones:nano_tech_boots"
+    }
+  },
+  "result": {
+    "item": "infinitystones:infected_nano_tech_boots",
+    "count": 1
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "infinitystones:item/infected_nano_tech_pickaxe"
+  }
+}

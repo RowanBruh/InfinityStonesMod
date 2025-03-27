@@ -1,58 +1,57 @@
 package com.infinitystones;
 
-import com.infinitystones.client.KeyBindings;
-import com.infinitystones.items.ModItems;
-import com.infinitystones.items.gods.GreekGodItems;
-import com.infinitystones.network.NetworkHandler;
-import net.minecraftforge.api.distmarker.Dist;
+import org.slf4j.Logger;
+
+import com.infinitystones.items.NanoTechItems;
+import com.infinitystones.registry.ModCreativeTabs;
+import com.mojang.logging.LogUtils;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+/**
+ * Main class for the Infinity Stones Mod.
+ * Handles initialization and registration of mod components.
+ */
 @Mod(InfinityStonesMod.MOD_ID)
 public class InfinityStonesMod {
     public static final String MOD_ID = "infinitystones";
-    public static final Logger LOGGER = LogManager.getLogger();
-
+    public static final Logger LOGGER = LogUtils.getLogger();
+    
     public InfinityStonesMod() {
-        LOGGER.info("Initializing Infinity Stones Mod for 1.21.5");
-        
-        // Register with the mod event bus
+        // Get the mod event bus
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         
-        // Register items with the new registration system
-        ModItems.register(modEventBus);
+        // Register creative tabs
+        ModCreativeTabs.register(modEventBus);
         
-        // Register Greek God items
-        GreekGodItems.register(modEventBus);
+        // Register items
+        NanoTechItems.register(modEventBus);
         
         // Register setup methods
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
         
-        // Register ourselves for server and other game events
+        // Register forge event bus
         MinecraftForge.EVENT_BUS.register(this);
     }
     
-    /**
-     * Common setup for both client and server
-     */
     private void commonSetup(final FMLCommonSetupEvent event) {
-        // Initialize network handler
-        NetworkHandler.register();
+        // Common setup code here
+        LOGGER.info("COMMON SETUP");
+        
+        event.enqueueWork(() -> {
+            // Add items to creative tabs after registration
+            NanoTechItems.addItemsToTabs();
+        });
     }
     
-    /**
-     * Client-only setup
-     */
     private void clientSetup(final FMLClientSetupEvent event) {
-        // Initialize key bindings on client side
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> KeyBindings::register);
+        // Client-side setup code here
+        LOGGER.info("CLIENT SETUP");
     }
 }
