@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UDU",
+    "DLD",
+    "UDU"
+  ],
+  "key": {
+    "U": {
+      "item": "infinitystones:ultimate_ingot"
+    },
+    "D": {
+      "item": "infinitystones:dragon_scale"
+    },
+    "L": {
+      "item": "infinitystones:legendary_box"
+    }
+  },
+  "result": {
+    "item": "infinitystones:cosmic_box",
+    "count": 1
+  }
+}

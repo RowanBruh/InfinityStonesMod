@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "N N",
+    "NCN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "infinitystones:nano_tech_core"
+    },
+    "C": {
+      "item": "minecraft:netherite_chestplate"
+    }
+  },
+  "result": {
+    "item": "infinitystones:nano_tech_armor",
+    "count": 1
+  }
+}

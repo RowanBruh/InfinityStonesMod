@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UNU",
+    "NSN",
+    " S "
+  ],
+  "key": {
+    "U": {
+      "item": "infinitystones:ultimate_ingot"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "S": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "item": "infinitystones:gravity_hammer",
+    "count": 1
+  }
+}

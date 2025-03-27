@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UGU",
+    "GCG",
+    "UGU"
+  ],
+  "key": {
+    "U": {
+      "item": "infinitystones:ultimate_ingot"
+    },
+    "G": {
+      "item": "minecraft:gold_block"
+    },
+    "C": {
+      "item": "infinitystones:chaos_shard"
+    }
+  },
+  "result": {
+    "item": "infinitystones:infinity_gauntlet",
+    "count": 1
+  }
+}
