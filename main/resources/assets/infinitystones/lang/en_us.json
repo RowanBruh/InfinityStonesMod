@@ -1,0 +1,23 @@
+{
+  "itemGroup.infinitystones": "Infinity Stones",
+  
+  "item.infinitystones.zeus_lightning_bolt": "Zeus's Lightning Bolt",
+  "item.infinitystones.poseidon_trident": "Poseidon's Trident",
+  "item.infinitystones.hades_bident": "Hades' Bident",
+  "item.infinitystones.artemis_bow": "Artemis' Bow",
+  "item.infinitystones.apollo_lyre": "Apollo's Lyre",
+  "item.infinitystones.athena_spear": "Athena's Spear",
+  "item.infinitystones.ares_sword": "Ares' Sword",
+  "item.infinitystones.hermes_boots": "Hermes' Winged Boots",
+  
+  "key.categories.infinitystones": "Infinity Stones Mod",
+  "key.infinitystones.activateFlight": "Activate Hermes Flight",
+  
+  "death.attack.godpower.zeus": "%1$s was struck down by Zeus's lightning",
+  "death.attack.godpower.poseidon": "%1$s was swept away by Poseidon's rage",
+  "death.attack.godpower.hades": "%1$s was claimed by the underworld",
+  "death.attack.godpower.artemis": "%1$s was hunted by Artemis",
+  "death.attack.godpower.apollo": "%1$s was judged by Apollo's light",
+  "death.attack.godpower.athena": "%1$s was outmatched by Athena's wisdom",
+  "death.attack.godpower.ares": "%1$s was slain in battle by Ares"
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "infinitystones:reality_stone"
+    },
+    {
+      "item": "infinitystones:nano_tech_core"
+    }
+  ],
+  "result": {
+    "item": "infinitystones:infected_reality_stone",
+    "count": 1
+  }
+}

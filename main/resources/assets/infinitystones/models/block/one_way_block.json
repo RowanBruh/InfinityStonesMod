@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "infinitystones:block/one_way_block",
+    "down": "infinitystones:block/one_way_block",
+    "up": "infinitystones:block/one_way_block",
+    "east": "infinitystones:block/one_way_block",
+    "west": "infinitystones:block/one_way_block",
+    "north": "infinitystones:block/one_way_block",
+    "south": "infinitystones:block/one_way_block"
+  }
+}

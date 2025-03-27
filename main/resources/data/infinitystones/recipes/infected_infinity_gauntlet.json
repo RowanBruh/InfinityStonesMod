@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NSN",
+    "CGC",
+    "NSN"
+  ],
+  "key": {
+    "N": {
+      "item": "infinitystones:nano_tech_core"
+    },
+    "S": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "C": {
+      "item": "minecraft:conduit"
+    },
+    "G": {
+      "item": "infinitystones:infinity_gauntlet"
+    }
+  },
+  "result": {
+    "item": "infinitystones:infected_infinity_gauntlet",
+    "count": 1
+  }
+}

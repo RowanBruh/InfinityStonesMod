@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ISI",
+    "SFS",
+    "ISI"
+  ],
+  "key": {
+    "I": {
+      "item": "infinitystones:ultimate_ingot"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "F": {
+      "item": "minecraft:fishing_rod"
+    }
+  },
+  "result": {
+    "item": "infinitystones:ultra_grappling_hook",
+    "count": 1
+  }
+}
