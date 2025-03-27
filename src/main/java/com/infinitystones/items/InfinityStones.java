@@ -1,19 +1,14 @@
 package com.infinitystones.items;
 
-import java.util.List;
-import java.util.function.Supplier;
-
 import com.infinitystones.InfinityStonesMod;
-import com.infinitystones.config.ModConfig;
 import com.infinitystones.util.StoneAbilities;
-
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -21,21 +16,30 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class InfinityStones {
+
+    /**
+     * Enum defining the different types of Infinity Stones
+     */
     public enum StoneType {
-        SPACE("space_stone", TextFormatting.BLUE),
-        MIND("mind_stone", TextFormatting.YELLOW),
-        REALITY("reality_stone", TextFormatting.RED),
-        POWER("power_stone", TextFormatting.PURPLE),
-        TIME("time_stone", TextFormatting.GREEN),
-        SOUL("soul_stone", TextFormatting.GOLD);
+        SPACE("space_stone", TextFormatting.BLUE, "Manipulate space and teleport"),
+        MIND("mind_stone", TextFormatting.YELLOW, "Control the minds of others"),
+        REALITY("reality_stone", TextFormatting.RED, "Alter reality itself"),
+        POWER("power_stone", TextFormatting.DARK_PURPLE, "Unleash destructive energy"),
+        TIME("time_stone", TextFormatting.GREEN, "Manipulate time"),
+        SOUL("soul_stone", TextFormatting.GOLD, "Control life and death");
         
         private final String registryName;
         private final TextFormatting color;
+        private final String description;
         
-        StoneType(String registryName, TextFormatting color) {
+        StoneType(String registryName, TextFormatting color, String description) {
             this.registryName = registryName;
             this.color = color;
+            this.description = description;
         }
         
         public String getRegistryName() {
@@ -45,120 +49,56 @@ public class InfinityStones {
         public TextFormatting getColor() {
             return color;
         }
+        
+        public String getDescription() {
+            return description;
+        }
+        
+        public ResourceLocation getTextureLocation() {
+            return new ResourceLocation(InfinityStonesMod.MOD_ID, "textures/item/" + registryName + ".png");
+        }
     }
     
+    /**
+     * The Infinity Stone item class
+     */
     public static class InfinityStoneItem extends Item {
-        private final StoneType type;
+        private final StoneType stoneType;
         
-        public InfinityStoneItem(StoneType type) {
+        public InfinityStoneItem(StoneType stoneType) {
             super(new Item.Properties()
                     .group(InfinityStonesMod.INFINITY_GROUP)
                     .maxStackSize(1)
                     .setNoRepair());
-            this.type = type;
+            this.stoneType = stoneType;
         }
         
         @Override
         public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-            ItemStack stack = playerIn.getHeldItem(handIn);
+            ItemStack itemStack = playerIn.getHeldItem(handIn);
             
-            if (!worldIn.isRemote) {
-                // Execute the stone's ability
-                switch (type) {
-                    case SPACE:
-                        StoneAbilities.activateSpaceStone(playerIn, worldIn);
-                        break;
-                    case MIND:
-                        StoneAbilities.activateMindStone(playerIn, worldIn);
-                        break;
-                    case REALITY:
-                        StoneAbilities.activateRealityStone(playerIn, worldIn);
-                        break;
-                    case POWER:
-                        StoneAbilities.activatePowerStone(playerIn, worldIn);
-                        break;
-                    case TIME:
-                        StoneAbilities.activateTimeStone(playerIn, worldIn);
-                        break;
-                    case SOUL:
-                        StoneAbilities.activateSoulStone(playerIn, worldIn);
-                        break;
-                }
+            if (!playerIn.getCooldownTracker().hasCooldown(this)) {
+                boolean success = StoneAbilities.activateStoneAbility(worldIn, playerIn, stoneType);
                 
-                // Add cooldown
-                playerIn.getCooldownTracker().setCooldown(this, 100);
-            }
-            
-            return ActionResult.resultSuccess(stack);
-        }
-        
-        @Override
-        public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-            if (entityIn instanceof PlayerEntity && !worldIn.isRemote) {
-                PlayerEntity player = (PlayerEntity) entityIn;
-                
-                // Apply passive effects based on stone type
-                if (type == StoneType.POWER) {
-                    // Passive strength when held
-                    if (isSelected) {
-                        StoneAbilities.applyPowerStonePassive(player);
-                    }
-                } else if (type == StoneType.SOUL) {
-                    // Passive regeneration when held
-                    if (isSelected) {
-                        StoneAbilities.applySoulStonePassive(player);
-                    }
+                if (success) {
+                    return ActionResult.resultSuccess(itemStack);
                 }
             }
             
-            super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+            return ActionResult.resultPass(itemStack);
         }
         
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            tooltip.add(new StringTextComponent("Infinity Stone: " + type.name()).mergeStyle(type.getColor()));
-            
-            switch (type) {
-                case SPACE:
-                    tooltip.add(new StringTextComponent("Right-click to teleport in the direction you're looking"));
-                    tooltip.add(new StringTextComponent("Range: " + 
-                            ModConfig.COMMON_CONFIG.spaceStonePowerRadius.get() + " blocks"));
-                    break;
-                case MIND:
-                    tooltip.add(new StringTextComponent("Right-click to control nearby mobs"));
-                    tooltip.add(new StringTextComponent("Duration: " + 
-                            ModConfig.COMMON_CONFIG.mindStoneControlDuration.get() + " seconds"));
-                    break;
-                case REALITY:
-                    tooltip.add(new StringTextComponent("Right-click to alter reality and create random blocks"));
-                    tooltip.add(new StringTextComponent("Power: " + 
-                            ModConfig.COMMON_CONFIG.realityStonePowerMultiplier.get() + "x multiplier"));
-                    break;
-                case POWER:
-                    tooltip.add(new StringTextComponent("Right-click to unleash destructive energy"));
-                    tooltip.add(new StringTextComponent("Damage: " + 
-                            ModConfig.COMMON_CONFIG.powerStoneDamageMultiplier.get() + "x multiplier"));
-                    tooltip.add(new StringTextComponent("Passive: Strength boost while held"));
-                    break;
-                case TIME:
-                    tooltip.add(new StringTextComponent("Right-click to slow down time around you"));
-                    tooltip.add(new StringTextComponent("Duration: " + 
-                            ModConfig.COMMON_CONFIG.timeStoneEffectDuration.get() + " seconds"));
-                    break;
-                case SOUL:
-                    tooltip.add(new StringTextComponent("Right-click to steal life from nearby entities"));
-                    tooltip.add(new StringTextComponent("Life Steal: " + 
-                            ModConfig.COMMON_CONFIG.soulStoneLifeStealAmount.get() + " hearts"));
-                    tooltip.add(new StringTextComponent("Passive: Slow regeneration while held"));
-                    break;
-            }
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+            tooltip.add(new StringTextComponent(stoneType.getDescription()).mergeStyle(stoneType.getColor()));
+            tooltip.add(new StringTextComponent("Right click to use").mergeStyle(TextFormatting.GRAY));
             
             super.addInformation(stack, worldIn, tooltip, flagIn);
         }
         
         public StoneType getStoneType() {
-            return type;
+            return stoneType;
         }
     }
 }

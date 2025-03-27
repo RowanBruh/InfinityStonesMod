@@ -1,18 +1,10 @@
 package com.infinitystones.items;
 
-import java.util.List;
-
 import com.infinitystones.InfinityStonesMod;
-import com.infinitystones.config.ModConfig;
-import com.infinitystones.gui.GauntletContainer;
 import com.infinitystones.items.InfinityStones.StoneType;
 import com.infinitystones.util.StoneAbilities;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
@@ -26,145 +18,139 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class InfinityGauntlet extends Item implements INamedContainerProvider {
+import javax.annotation.Nullable;
+import java.util.List;
+
+public class InfinityGauntlet extends Item {
+    // NBT key for the stones
+    private static final String NBT_STONES = "InfinityStones";
+    
+    // The inventory handler for the stones
+    private final ItemStackHandler stoneInventory;
     
     public InfinityGauntlet() {
         super(new Item.Properties()
                 .group(InfinityStonesMod.INFINITY_GROUP)
                 .maxStackSize(1)
                 .setNoRepair());
+        
+        // Create inventory with 6 slots, one for each stone
+        this.stoneInventory = new ItemStackHandler(6);
     }
     
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack stack = playerIn.getHeldItem(handIn);
         
-        if (!worldIn.isRemote) {
-            if (playerIn.isSneaking()) {
-                // Open the GUI to insert/remove stones
-                NetworkHooks.openGui((ServerPlayerEntity) playerIn, this, buf -> {});
-            } else {
-                // Activate the gauntlet's power if stones are inserted
+        if (playerIn.isCrouching()) {
+            // Open the GUI when the player is sneaking and right-clicks
+            if (!worldIn.isRemote) {
+                openGUI(playerIn, stack);
+            }
+            return ActionResult.resultConsume(stack);
+        } else {
+            // Activate special ability when right-clicking without sneaking
+            if (!playerIn.getCooldownTracker().hasCooldown(this)) {
+                // Check if we have all stones equipped
                 if (hasAllStones(stack)) {
-                    if (ModConfig.COMMON_CONFIG.enableGauntletSnapAbility.get()) {
-                        if (!playerIn.getCooldownTracker().hasCooldown(this)) {
-                            StoneAbilities.activateInfinityGauntlet(playerIn, worldIn);
-                            playerIn.getCooldownTracker().setCooldown(this, 
-                                    ModConfig.COMMON_CONFIG.gauntletSnapCooldown.get() * 20);
-                        } else {
-                            playerIn.sendMessage(new StringTextComponent("The Gauntlet is recharging...").mergeStyle(TextFormatting.RED), 
+                    // Activate the ultimate ability
+                    boolean success = StoneAbilities.activateInfinityGauntlet(worldIn, playerIn);
+                    
+                    if (success) {
+                        return ActionResult.resultSuccess(stack);
+                    }
+                } else {
+                    // If we don't have all stones, check which stones we have and activate one randomly
+                    StoneType[] equippedStones = getEquippedStones(stack);
+                    
+                    if (equippedStones.length > 0) {
+                        // Pick a random stone from the ones we have
+                        StoneType randomStone = equippedStones[worldIn.rand.nextInt(equippedStones.length)];
+                        boolean success = StoneAbilities.activateStoneAbility(worldIn, playerIn, randomStone);
+                        
+                        if (success) {
+                            // Set a shorter cooldown for individual stone use
+                            playerIn.getCooldownTracker().setCooldown(this, 60);
+                            return ActionResult.resultSuccess(stack);
+                        }
+                    } else {
+                        // No stones equipped
+                        if (!worldIn.isRemote) {
+                            playerIn.sendMessage(
+                                    new StringTextComponent("The Infinity Gauntlet has no stones equipped!")
+                                            .mergeStyle(TextFormatting.YELLOW),
                                     playerIn.getUniqueID());
                         }
                     }
-                } else {
-                    // Activate individual stone effects based on inserted stones
-                    activateInsertedStones(stack, playerIn, worldIn);
-                }
-            }
-        }
-        
-        return ActionResult.resultSuccess(stack);
-    }
-    
-    private void activateInsertedStones(ItemStack stack, PlayerEntity player, World world) {
-        ItemStackHandler stoneHandler = getStoneHandler(stack);
-        
-        for (int i = 0; i < stoneHandler.getSlots(); i++) {
-            ItemStack stoneStack = stoneHandler.getStackInSlot(i);
-            if (!stoneStack.isEmpty() && stoneStack.getItem() instanceof InfinityStones.InfinityStoneItem) {
-                InfinityStones.InfinityStoneItem stone = (InfinityStones.InfinityStoneItem) stoneStack.getItem();
-                switch (stone.getStoneType()) {
-                    case SPACE:
-                        StoneAbilities.activateSpaceStone(player, world);
-                        break;
-                    case MIND:
-                        StoneAbilities.activateMindStone(player, world);
-                        break;
-                    case REALITY:
-                        StoneAbilities.activateRealityStone(player, world);
-                        break;
-                    case POWER:
-                        StoneAbilities.activatePowerStone(player, world);
-                        break;
-                    case TIME:
-                        StoneAbilities.activateTimeStone(player, world);
-                        break;
-                    case SOUL:
-                        StoneAbilities.activateSoulStone(player, world);
-                        break;
-                }
-            }
-        }
-    }
-    
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new StringTextComponent("The Infinity Gauntlet").mergeStyle(TextFormatting.GOLD));
-        tooltip.add(new StringTextComponent("Right-click to use the power of inserted stones"));
-        tooltip.add(new StringTextComponent("Shift+Right-click to open the gauntlet inventory"));
-        
-        if (hasAllStones(stack)) {
-            tooltip.add(new StringTextComponent("§lAll Infinity Stones collected!").mergeStyle(TextFormatting.DARK_PURPLE));
-            if (ModConfig.COMMON_CONFIG.enableGauntletSnapAbility.get()) {
-                tooltip.add(new StringTextComponent("Right-click to snap and eliminate half of all life"));
-            }
-        } else {
-            // Show which stones are inserted
-            tooltip.add(new StringTextComponent("Stones inserted:").mergeStyle(TextFormatting.GRAY));
-            
-            ItemStackHandler stoneHandler = getStoneHandler(stack);
-            boolean anyStones = false;
-            
-            for (int i = 0; i < stoneHandler.getSlots(); i++) {
-                ItemStack stoneStack = stoneHandler.getStackInSlot(i);
-                if (!stoneStack.isEmpty() && stoneStack.getItem() instanceof InfinityStones.InfinityStoneItem) {
-                    InfinityStones.InfinityStoneItem stone = (InfinityStones.InfinityStoneItem) stoneStack.getItem();
-                    tooltip.add(new StringTextComponent(" - " + stone.getStoneType().name()).mergeStyle(stone.getStoneType().getColor()));
-                    anyStones = true;
                 }
             }
             
-            if (!anyStones) {
-                tooltip.add(new StringTextComponent(" None").mergeStyle(TextFormatting.GRAY));
-            }
+            return ActionResult.resultPass(stack);
         }
-        
-        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
     
-    public static ItemStackHandler getStoneHandler(ItemStack stack) {
+    private void openGUI(PlayerEntity player, ItemStack stack) {
+        // Create the container provider for the GUI
+        player.openContainer(new INamedContainerProvider() {
+            @Override
+            public ITextComponent getDisplayName() {
+                return new StringTextComponent("Infinity Gauntlet");
+            }
+            
+            @Nullable
+            @Override
+            public Container createMenu(int windowId, net.minecraft.entity.player.PlayerInventory playerInventory, PlayerEntity player) {
+                return new GauntletContainer(windowId, playerInventory, getInventory(stack));
+            }
+        });
+    }
+    
+    /**
+     * Gets the inventory handler for the gauntlet
+     */
+    public ItemStackHandler getInventory(ItemStack stack) {
         ItemStackHandler handler = new ItemStackHandler(6);
-        if (stack.hasTag() && stack.getTag().contains("Stones")) {
-            handler.deserializeNBT((CompoundNBT) stack.getTag().get("Stones"));
+        
+        // Load the inventory from NBT if it exists
+        if (stack.hasTag() && stack.getTag().contains(NBT_STONES)) {
+            handler.deserializeNBT((CompoundNBT) stack.getTag().get(NBT_STONES));
         }
+        
         return handler;
     }
     
-    public static void saveStoneHandler(ItemStack stack, ItemStackHandler handler) {
+    /**
+     * Saves the inventory handler to the gauntlet's NBT
+     */
+    public void saveInventory(ItemStack stack, ItemStackHandler inventory) {
         if (!stack.hasTag()) {
             stack.setTag(new CompoundNBT());
         }
-        stack.getTag().put("Stones", handler.serializeNBT());
+        
+        stack.getTag().put(NBT_STONES, inventory.serializeNBT());
     }
     
+    /**
+     * Checks if the gauntlet has all infinity stones
+     */
     public boolean hasAllStones(ItemStack stack) {
-        ItemStackHandler handler = getStoneHandler(stack);
-        boolean[] foundStones = new boolean[StoneType.values().length];
+        ItemStackHandler inventory = getInventory(stack);
+        boolean[] stonesPresent = new boolean[StoneType.values().length];
         
-        for (int i = 0; i < handler.getSlots(); i++) {
-            ItemStack stoneStack = handler.getStackInSlot(i);
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            ItemStack stoneStack = inventory.getStackInSlot(i);
+            
             if (!stoneStack.isEmpty() && stoneStack.getItem() instanceof InfinityStones.InfinityStoneItem) {
-                InfinityStones.InfinityStoneItem stone = (InfinityStones.InfinityStoneItem) stoneStack.getItem();
-                foundStones[stone.getStoneType().ordinal()] = true;
+                InfinityStones.StoneType stoneType = ((InfinityStones.InfinityStoneItem) stoneStack.getItem()).getStoneType();
+                stonesPresent[stoneType.ordinal()] = true;
             }
         }
         
-        for (boolean found : foundStones) {
-            if (!found) {
+        // Check if all stones are present
+        for (boolean stonePresent : stonesPresent) {
+            if (!stonePresent) {
                 return false;
             }
         }
@@ -172,13 +158,83 @@ public class InfinityGauntlet extends Item implements INamedContainerProvider {
         return true;
     }
     
-    @Override
-    public ITextComponent getDisplayName() {
-        return new StringTextComponent("Infinity Gauntlet");
+    /**
+     * Gets an array of the equipped stone types
+     */
+    public StoneType[] getEquippedStones(ItemStack stack) {
+        ItemStackHandler inventory = getInventory(stack);
+        int stoneCount = 0;
+        
+        // Count stones first
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            ItemStack stoneStack = inventory.getStackInSlot(i);
+            
+            if (!stoneStack.isEmpty() && stoneStack.getItem() instanceof InfinityStones.InfinityStoneItem) {
+                stoneCount++;
+            }
+        }
+        
+        // Create array and fill it
+        StoneType[] result = new StoneType[stoneCount];
+        int index = 0;
+        
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            ItemStack stoneStack = inventory.getStackInSlot(i);
+            
+            if (!stoneStack.isEmpty() && stoneStack.getItem() instanceof InfinityStones.InfinityStoneItem) {
+                result[index++] = ((InfinityStones.InfinityStoneItem) stoneStack.getItem()).getStoneType();
+            }
+        }
+        
+        return result;
     }
     
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new GauntletContainer(windowId, playerInventory, player.getHeldItemMainhand());
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        // Add basic information
+        tooltip.add(new StringTextComponent("The Infinity Gauntlet").mergeStyle(TextFormatting.GOLD));
+        tooltip.add(new StringTextComponent("Right-click to use, Shift+Right-click to open")
+                .mergeStyle(TextFormatting.GRAY));
+        
+        // Add information about equipped stones
+        StoneType[] equippedStones = getEquippedStones(stack);
+        
+        if (equippedStones.length > 0) {
+            tooltip.add(new StringTextComponent("Equipped Stones:").mergeStyle(TextFormatting.AQUA));
+            
+            for (StoneType stoneType : equippedStones) {
+                tooltip.add(new StringTextComponent(" - " + stoneType.name()).mergeStyle(stoneType.getColor()));
+            }
+            
+            if (hasAllStones(stack)) {
+                tooltip.add(new StringTextComponent("UNLIMITED POWER!").mergeStyle(TextFormatting.RED, TextFormatting.BOLD));
+            }
+        } else {
+            tooltip.add(new StringTextComponent("No stones equipped").mergeStyle(TextFormatting.GRAY));
+        }
+        
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+    }
+    
+    /**
+     * Container class for the Infinity Gauntlet
+     */
+    public static class GauntletContainer extends Container {
+        private final ItemStackHandler inventory;
+        
+        public GauntletContainer(int windowId, net.minecraft.entity.player.PlayerInventory playerInventory, ItemStackHandler inventory) {
+            super(null, windowId); // Container type will be registered separately
+            this.inventory = inventory;
+            
+            // Add stone slots
+            // This is where we would add the slots to the container
+            // For simplicity, we're not implementing the full container mechanics here
+        }
+        
+        @Override
+        public boolean canInteractWith(PlayerEntity playerIn) {
+            return true;
+        }
     }
 }

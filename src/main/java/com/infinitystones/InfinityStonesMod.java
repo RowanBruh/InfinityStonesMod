@@ -2,35 +2,26 @@ package com.infinitystones;
 
 import com.infinitystones.config.ModConfig;
 import com.infinitystones.items.ModItems;
-import com.infinitystones.client.ClientSetup;
-import com.infinitystones.events.StoneEvents;
-import com.infinitystones.gui.GauntletContainer;
 import com.infinitystones.mobs.InsaneCraftBosses;
-import com.infinitystones.world.OreGeneration;
-
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.registries.ObjectHolder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-// The main mod class
 @Mod(InfinityStonesMod.MOD_ID)
 public class InfinityStonesMod {
     public static final String MOD_ID = "infinitystones";
+    public static final Logger LOGGER = LogManager.getLogger();
     
-    // Create a custom creative tab for mod items
     public static final ItemGroup INFINITY_GROUP = new ItemGroup("infinitystones") {
         @Override
         public ItemStack createIcon() {
@@ -38,46 +29,48 @@ public class InfinityStonesMod {
         }
     };
     
-    @ObjectHolder(MOD_ID + ":gauntlet_container")
-    public static ContainerType<GauntletContainer> GAUNTLET_CONTAINER;
-    
     public InfinityStonesMod() {
+        // Register the setup method for modloading
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        
-        // Register the setup methods for modloading
         modEventBus.addListener(this::setup);
-        modEventBus.addListener(this::doClientStuff);
+        modEventBus.addListener(this::clientSetup);
         
-        // Register ourselves for server and other game events
-        MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new StoneEvents());
+        // Register configs
+        ModLoadingContext.get().registerConfig(Type.COMMON, ModConfig.COMMON_SPEC);
         
-        // Register our items and entities
+        // Register DeferredRegisters
         ModItems.ITEMS.register(modEventBus);
         InsaneCraftBosses.ENTITY_TYPES.register(modEventBus);
         
-        // Register Config
-        ModLoadingContext.get().registerConfig(Type.COMMON, ModConfig.COMMON_SPEC);
-        ModConfig.loadConfig(ModConfig.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve(MOD_ID + "-common.toml"));
+        // Register ourselves for server and other game events
+        MinecraftForge.EVENT_BUS.register(this);
+        
+        LOGGER.info("Infinity Stones Mod initialized!");
     }
     
     private void setup(final FMLCommonSetupEvent event) {
-        // Initialize ore generation
-        OreGeneration.setupOreGeneration();
+        // Some preinit code
+        LOGGER.info("Infinity Stones Mod: Common Setup");
+        
+        // Register entity attributes
+        event.enqueueWork(() -> {
+            // Register Chaos Guardian attributes
+            GlobalEntityTypeAttributes.put(
+                    InsaneCraftBosses.CHAOS_GUARDIAN,
+                    InsaneCraftBosses.ChaosGuardianEntity.getAttributes().create());
+            
+            // Register Cosmic Titan attributes
+            GlobalEntityTypeAttributes.put(
+                    InsaneCraftBosses.COSMIC_TITAN,
+                    InsaneCraftBosses.CosmicTitanEntity.getAttributes().create());
+        });
     }
     
-    private void doClientStuff(final FMLClientSetupEvent event) {
-        // Register client side handlers
-        ClientSetup.init();
-    }
-    
-    // Register the container for the gauntlet GUI
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> event) {
-            event.getRegistry().register(new ContainerType<>(GauntletContainer::new)
-                    .setRegistryName(new ResourceLocation(MOD_ID, "gauntlet_container")));
-        }
+    private void clientSetup(final FMLClientSetupEvent event) {
+        // Client-side setup
+        LOGGER.info("Infinity Stones Mod: Client Setup");
+        
+        // Register renderers for entities
+        // In a full implementation, we'd register renderers for our custom entities here
     }
 }

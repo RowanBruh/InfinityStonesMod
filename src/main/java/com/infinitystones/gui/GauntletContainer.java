@@ -1,79 +1,109 @@
 package com.infinitystones.gui;
 
+import com.infinitystones.InfinityStonesMod;
 import com.infinitystones.items.InfinityGauntlet;
 import com.infinitystones.items.InfinityStones;
-import com.infinitystones.items.InfinityStones.StoneType;
-
+import com.infinitystones.items.ModItems;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Hand;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import com.infinitystones.InfinityStonesMod;
+import net.minecraftforge.registries.ObjectHolder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+/**
+ * The container for the Infinity Gauntlet GUI
+ */
 public class GauntletContainer extends Container {
-    private final ItemStack gauntletStack;
-    private final ItemStackHandler stoneHandler;
-    private final PlayerEntity player;
     
-    public GauntletContainer(int windowId, PlayerInventory playerInventory, ItemStack gauntletStack) {
-        super(InfinityStonesMod.GAUNTLET_CONTAINER, windowId);
-        this.gauntletStack = gauntletStack;
-        this.player = playerInventory.player;
-        this.stoneHandler = InfinityGauntlet.getStoneHandler(gauntletStack);
-        
-        // Add the Infinity Stone slots
-        addStoneSlots();
-        
-        // Add player inventory slots
-        addPlayerInventorySlots(playerInventory);
+    // The container type - will be registered later
+    @ObjectHolder(InfinityStonesMod.MOD_ID + ":gauntlet_container")
+    public static ContainerType<GauntletContainer> TYPE;
+    
+    private final ItemStackHandler itemHandler;
+    private final ItemStack gauntletStack;
+    private final Hand hand;
+    
+    /**
+     * Creates a container on the server
+     */
+    public GauntletContainer(int windowId, PlayerInventory playerInventory, Hand hand) {
+        this(windowId, playerInventory, hand, new ItemStackHandler(6));
     }
     
-    private void addStoneSlots() {
-        // Add 6 slots for the Infinity Stones in a 3x2 grid
-        for (int row = 0; row < 2; row++) {
-            for (int col = 0; col < 3; col++) {
-                int index = col + row * 3;
-                int xPos = 44 + col * 30;
-                int yPos = 20 + row * 30;
-                
-                // Add slots that only accept the corresponding Infinity Stone
-                final int slotIndex = index;
-                addSlot(new SlotItemHandler(stoneHandler, index, xPos, yPos) {
-                    @Override
-                    public boolean isItemValid(ItemStack stack) {
-                        if (stack.getItem() instanceof InfinityStones.InfinityStoneItem) {
-                            InfinityStones.InfinityStoneItem stone = (InfinityStones.InfinityStoneItem) stack.getItem();
-                            StoneType type = stone.getStoneType();
-                            
-                            // Map slot index to stone type
-                            StoneType expectedType = null;
-                            switch (slotIndex) {
-                                case 0: expectedType = StoneType.SPACE; break;
-                                case 1: expectedType = StoneType.MIND; break;
-                                case 2: expectedType = StoneType.REALITY; break;
-                                case 3: expectedType = StoneType.POWER; break;
-                                case 4: expectedType = StoneType.TIME; break;
-                                case 5: expectedType = StoneType.SOUL; break;
-                            }
-                            
-                            return type == expectedType;
-                        }
-                        return false;
-                    }
-                });
-            }
+    /**
+     * Creates a container on the client
+     */
+    public GauntletContainer(int windowId, PlayerInventory playerInventory, PacketBuffer extraData) {
+        this(windowId, playerInventory, extraData.readEnumValue(Hand.class), new ItemStackHandler(6));
+        
+        // Read the stone inventory from the network
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            itemHandler.setStackInSlot(i, extraData.readItemStack());
         }
     }
     
-    private void addPlayerInventorySlots(PlayerInventory playerInventory) {
+    /**
+     * Constructor with all parameters
+     */
+    public GauntletContainer(int windowId, PlayerInventory playerInventory, Hand hand, ItemStackHandler itemHandler) {
+        super(TYPE, windowId);
+        this.hand = hand;
+        this.gauntletStack = playerInventory.player.getHeldItem(hand);
+        this.itemHandler = itemHandler;
+        
+        // Add stone slots
+        for (int i = 0; i < InfinityStones.StoneType.values().length; i++) {
+            // Position the slots around the gauntlet image
+            int x = 0;
+            int y = 0;
+            
+            switch (i) {
+                case 0: // SPACE
+                    x = 80; y = 20;
+                    break;
+                case 1: // MIND
+                    x = 50; y = 40;
+                    break;
+                case 2: // REALITY
+                    x = 110; y = 40;
+                    break;
+                case 3: // POWER
+                    x = 50; y = 70;
+                    break;
+                case 4: // TIME
+                    x = 110; y = 70;
+                    break;
+                case 5: // SOUL
+                    x = 80; y = 90;
+                    break;
+            }
+            
+            final InfinityStones.StoneType stoneType = InfinityStones.StoneType.values()[i];
+            
+            // Add a slot for this stone type
+            addSlot(new SlotItemHandler(itemHandler, i, x, y) {
+                @Override
+                public boolean isItemValid(@Nonnull ItemStack stack) {
+                    return stack.getItem() instanceof InfinityStones.InfinityStoneItem &&
+                           ((InfinityStones.InfinityStoneItem) stack.getItem()).getStoneType() == stoneType;
+                }
+            });
+        }
+        
         // Add player inventory slots
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
-                addSlot(new Slot(playerInventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
+                addSlot(new Slot(playerInventory, col + row * 9 + 9, 8 + col * 18, 166 - (4 - row) * 18 - 10));
             }
         }
         
@@ -85,39 +115,27 @@ public class GauntletContainer extends Container {
     
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
-        // Check if player can still use the gauntlet
-        ItemStack mainHand = playerIn.getHeldItemMainhand();
-        ItemStack offHand = playerIn.getHeldItemOffhand();
-        return (mainHand == gauntletStack || offHand == gauntletStack);
+        return playerIn.getHeldItem(hand).getItem() instanceof InfinityGauntlet;
     }
     
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         
         if (slot != null && slot.getHasStack()) {
             ItemStack slotStack = slot.getStack();
-            itemstack = slotStack.copy();
+            itemStack = slotStack.copy();
             
+            // If we're moving from a stone slot to the player inventory
             if (index < 6) {
-                // If clicking a stone slot, move to player inventory
                 if (!this.mergeItemStack(slotStack, 6, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else {
-                // If clicking player inventory, try to move to appropriate stone slot
-                if (slotStack.getItem() instanceof InfinityStones.InfinityStoneItem) {
-                    InfinityStones.InfinityStoneItem stone = (InfinityStones.InfinityStoneItem) slotStack.getItem();
-                    int targetSlot = stone.getStoneType().ordinal();
-                    
-                    if (!this.inventorySlots.get(targetSlot).getHasStack() && 
-                        this.inventorySlots.get(targetSlot).isItemValid(slotStack)) {
-                        if (!this.mergeItemStack(slotStack, targetSlot, targetSlot + 1, false)) {
-                            return ItemStack.EMPTY;
-                        }
-                    }
-                }
+            } 
+            // If we're moving from the player inventory to a stone slot
+            else if (!this.mergeItemStack(slotStack, 0, 6, false)) {
+                return ItemStack.EMPTY;
             }
             
             if (slotStack.isEmpty()) {
@@ -127,14 +145,17 @@ public class GauntletContainer extends Container {
             }
         }
         
-        return itemstack;
+        return itemStack;
     }
     
     @Override
     public void onContainerClosed(PlayerEntity playerIn) {
         super.onContainerClosed(playerIn);
         
-        // Save the stone inventory back to the gauntlet NBT
-        InfinityGauntlet.saveStoneHandler(gauntletStack, stoneHandler);
+        // Save the inventory back to the gauntlet
+        if (playerIn.getHeldItem(hand).getItem() instanceof InfinityGauntlet) {
+            InfinityGauntlet gauntlet = (InfinityGauntlet) playerIn.getHeldItem(hand).getItem();
+            gauntlet.saveInventory(playerIn.getHeldItem(hand), itemHandler);
+        }
     }
 }

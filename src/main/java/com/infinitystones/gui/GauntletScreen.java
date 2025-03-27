@@ -1,9 +1,10 @@
 package com.infinitystones.gui;
 
 import com.infinitystones.InfinityStonesMod;
+import com.infinitystones.items.InfinityGauntlet.GauntletContainer;
+import com.infinitystones.items.InfinityStones.StoneType;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -12,13 +13,34 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 public class GauntletScreen extends ContainerScreen<GauntletContainer> {
-    private static final ResourceLocation GAUNTLET_GUI = new ResourceLocation(InfinityStonesMod.MOD_ID, 
-            "textures/gui/gauntlet_gui.png");
+    // Background texture for the GUI
+    private static final ResourceLocation BACKGROUND_TEXTURE = 
+            new ResourceLocation(InfinityStonesMod.MOD_ID, "textures/gui/gauntlet_gui.png");
     
-    public GauntletScreen(GauntletContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
-        super(screenContainer, inv, titleIn);
+    // Stone textures
+    private static final ResourceLocation[] STONE_TEXTURES = new ResourceLocation[StoneType.values().length];
+    
+    // Coordinates for stone slots in the GUI
+    private static final int[][] STONE_POSITIONS = {
+            {80, 20},  // SPACE
+            {50, 40},  // MIND
+            {110, 40}, // REALITY
+            {50, 70},  // POWER
+            {110, 70}, // TIME
+            {80, 90}   // SOUL
+    };
+    
+    static {
+        // Initialize stone textures
+        for (StoneType stoneType : StoneType.values()) {
+            STONE_TEXTURES[stoneType.ordinal()] = stoneType.getTextureLocation();
+        }
+    }
+    
+    public GauntletScreen(GauntletContainer container, PlayerInventory playerInventory, ITextComponent title) {
+        super(container, playerInventory, title);
         
-        // Set the size of the GUI
+        // Set GUI dimensions
         this.xSize = 176;
         this.ySize = 166;
     }
@@ -29,80 +51,57 @@ public class GauntletScreen extends ContainerScreen<GauntletContainer> {
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
         
-        // Draw the slot descriptions when hovering
-        for (int i = 0; i < 6; i++) {
-            // Calculate the coordinates of each stone slot
-            int slotX = leftPos + 44 + (i % 3) * 30;
-            int slotY = topPos + 20 + (i / 3) * 30;
+        // Render tooltips for stone slots when hovering
+        for (int i = 0; i < StoneType.values().length; i++) {
+            int x = this.guiLeft + STONE_POSITIONS[i][0];
+            int y = this.guiTop + STONE_POSITIONS[i][1];
             
-            if (mouseX >= slotX && mouseX < slotX + 18 && mouseY >= slotY && mouseY < slotY + 18) {
-                // Draw stone type tooltip based on slot index
-                matrixStack.push();
-                ITextComponent stoneType;
-                
-                switch (i) {
-                    case 0:
-                        stoneType = new StringTextComponent("Space Stone Slot").mergeStyle(TextFormatting.BLUE);
-                        break;
-                    case 1:
-                        stoneType = new StringTextComponent("Mind Stone Slot").mergeStyle(TextFormatting.YELLOW);
-                        break;
-                    case 2:
-                        stoneType = new StringTextComponent("Reality Stone Slot").mergeStyle(TextFormatting.RED);
-                        break;
-                    case 3:
-                        stoneType = new StringTextComponent("Power Stone Slot").mergeStyle(TextFormatting.DARK_PURPLE);
-                        break;
-                    case 4:
-                        stoneType = new StringTextComponent("Time Stone Slot").mergeStyle(TextFormatting.GREEN);
-                        break;
-                    case 5:
-                        stoneType = new StringTextComponent("Soul Stone Slot").mergeStyle(TextFormatting.GOLD);
-                        break;
-                    default:
-                        stoneType = new StringTextComponent("Stone Slot");
-                }
-                
-                this.renderTooltip(matrixStack, stoneType, mouseX, mouseY);
-                matrixStack.pop();
+            if (mouseX >= x && mouseX < x + 16 && mouseY >= y && mouseY < y + 16) {
+                StoneType stoneType = StoneType.values()[i];
+                this.renderTooltip(matrixStack, 
+                        new StringTextComponent(stoneType.name() + " STONE")
+                                .mergeStyle(stoneType.getColor()), 
+                        mouseX, mouseY);
             }
         }
     }
     
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-        // Draw the title
-        String title = "Infinity Gauntlet";
-        this.font.drawString(matrixStack, title, (this.xSize / 2f) - (this.font.getStringWidth(title) / 2f), 6, 0xFFD700);
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         
-        // Draw the player inventory title
-        this.font.drawString(matrixStack, this.playerInventory.getDisplayName().getString(), 8, this.ySize - 96 + 2, 4210752);
+        // Bind and draw the background texture
+        this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+        this.blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+        
+        // Draw stone slot highlights based on whether stones are equipped
+        for (int i = 0; i < StoneType.values().length; i++) {
+            // In a full implementation, we would check if stones are equipped here
+            // For simplicity, we're just drawing the slots
+            int x = this.guiLeft + STONE_POSITIONS[i][0];
+            int y = this.guiTop + STONE_POSITIONS[i][1];
+            
+            // Draw slot background
+            this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+            this.blit(matrixStack, x, y, 176, 0, 16, 16);
+            
+            // Draw stone icon
+            // In a full implementation, this would only draw if the stone is equipped
+            // this.minecraft.getTextureManager().bindTexture(STONE_TEXTURES[i]);
+            // this.blit(matrixStack, x, y, 0, 0, 16, 16);
+        }
     }
     
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(GAUNTLET_GUI);
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
+        // Draw title
+        this.font.drawText(matrixStack, 
+                new StringTextComponent("Infinity Gauntlet").mergeStyle(TextFormatting.GOLD), 
+                8, 6, 0xFFFFFF);
         
-        // Draw the background
-        int relX = (this.width - this.xSize) / 2;
-        int relY = (this.height - this.ySize) / 2;
-        this.blit(matrixStack, relX, relY, 0, 0, this.xSize, this.ySize);
-        
-        // Draw colored borders around stone slots
-        drawColoredSlot(matrixStack, relX + 44, relY + 20, 0x8000BFFF); // Space Stone (Blue)
-        drawColoredSlot(matrixStack, relX + 74, relY + 20, 0x80FFFF00); // Mind Stone (Yellow)
-        drawColoredSlot(matrixStack, relX + 104, relY + 20, 0x80FF0000); // Reality Stone (Red)
-        drawColoredSlot(matrixStack, relX + 44, relY + 50, 0x80800080); // Power Stone (Purple)
-        drawColoredSlot(matrixStack, relX + 74, relY + 50, 0x8000FF00); // Time Stone (Green)
-        drawColoredSlot(matrixStack, relX + 104, relY + 50, 0x80FFA500); // Soul Stone (Orange)
-    }
-    
-    private void drawColoredSlot(MatrixStack matrixStack, int x, int y, int color) {
-        // Draw a colored border around the slot
-        fill(matrixStack, x - 1, y - 1, x + 19, y, color);      // Top
-        fill(matrixStack, x - 1, y, x, y + 18, color);          // Left
-        fill(matrixStack, x + 18, y, x + 19, y + 18, color);    // Right
-        fill(matrixStack, x - 1, y + 18, x + 19, y + 19, color); // Bottom
+        // Draw player inventory label
+        this.font.drawText(matrixStack, 
+                this.playerInventory.getDisplayName(), 
+                8, this.ySize - 96 + 2, 0x404040);
     }
 }

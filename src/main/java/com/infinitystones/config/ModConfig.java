@@ -1,130 +1,100 @@
 package com.infinitystones.config;
 
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
-
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.electronwill.nightconfig.core.io.WritingMode;
-
+import com.infinitystones.InfinityStonesMod;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
-import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig.ModConfigEvent;
 
+@Mod.EventBusSubscriber(modid = InfinityStonesMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfig {
-    public static final ForgeConfigSpec COMMON_SPEC;
-    public static final CommonConfig COMMON_CONFIG;
     
-    static {
-        final ForgeConfigSpec.Builder commonBuilder = new ForgeConfigSpec.Builder();
-        COMMON_CONFIG = new CommonConfig(commonBuilder);
-        COMMON_SPEC = commonBuilder.build();
-    }
+    private static final ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
+    public static final CommonConfig COMMON_CONFIG = new CommonConfig(COMMON_BUILDER);
+    public static final ForgeConfigSpec COMMON_SPEC = COMMON_BUILDER.build();
     
     public static class CommonConfig {
-        // General config settings
-        public final BooleanValue enableInsaneCraftIntegration;
+        // Infinity Stones configuration
+        public final ForgeConfigSpec.IntValue spaceStoneCooldown;
+        public final ForgeConfigSpec.IntValue mindStoneCooldown;
+        public final ForgeConfigSpec.IntValue realityStoneCooldown;
+        public final ForgeConfigSpec.IntValue powerStoneCooldown;
+        public final ForgeConfigSpec.IntValue timeStoneCooldown;
+        public final ForgeConfigSpec.IntValue soulStoneCooldown;
         
-        // Stone appearance settings
-        public final DoubleValue stoneSpawnChance;
-        public final IntValue stoneSpawnY;
+        // InsaneCraft weapons configuration
+        public final ForgeConfigSpec.DoubleValue insaneCraftWeaponPower;
+        public final ForgeConfigSpec.IntValue royalGuardianSwordDamage;
+        public final ForgeConfigSpec.IntValue thorHammerDamage;
         
-        // Stone ability settings
-        public final DoubleValue spaceStonePowerRadius;
-        public final IntValue mindStoneControlDuration;
-        public final DoubleValue realityStonePowerMultiplier;
-        public final DoubleValue powerStoneDamageMultiplier;
-        public final IntValue timeStoneEffectDuration;
-        public final DoubleValue soulStoneLifeStealAmount;
-        
-        // Gauntlet settings
-        public final BooleanValue enableGauntletSnapAbility;
-        public final IntValue gauntletSnapCooldown;
-        
-        // InsaneCraft boss integration
-        public final BooleanValue enableBossDrops;
-        public final ConfigValue<List<? extends String>> bossNames;
+        // Boss configuration
+        public final ForgeConfigSpec.DoubleValue insaneCraftBossHealth;
+        public final ForgeConfigSpec.DoubleValue insaneCraftBossDamage;
         
         public CommonConfig(ForgeConfigSpec.Builder builder) {
             builder.comment("Infinity Stones Mod Configuration")
-                   .push("general");
+                   .push("infinity_stones");
             
-            enableInsaneCraftIntegration = builder
-                    .comment("Enable integration with Insane Craft elements")
-                    .define("enableInsaneCraftIntegration", true);
+            spaceStoneCooldown = builder
+                    .comment("Cooldown in ticks for the Space Stone (20 ticks = 1 second)")
+                    .defineInRange("spaceStoneCooldown", 200, 0, 6000);
             
-            builder.pop().push("stone_generation");
+            mindStoneCooldown = builder
+                    .comment("Cooldown in ticks for the Mind Stone (20 ticks = 1 second)")
+                    .defineInRange("mindStoneCooldown", 300, 0, 6000);
             
-            stoneSpawnChance = builder
-                    .comment("Chance of infinity stone ore spawning (0.0-1.0)")
-                    .defineInRange("stoneSpawnChance", 0.02, 0.0, 1.0);
+            realityStoneCooldown = builder
+                    .comment("Cooldown in ticks for the Reality Stone (20 ticks = 1 second)")
+                    .defineInRange("realityStoneCooldown", 400, 0, 6000);
             
-            stoneSpawnY = builder
-                    .comment("Maximum Y level for stone ore generation")
-                    .defineInRange("stoneSpawnY", 16, 1, 255);
+            powerStoneCooldown = builder
+                    .comment("Cooldown in ticks for the Power Stone (20 ticks = 1 second)")
+                    .defineInRange("powerStoneCooldown", 300, 0, 6000);
             
-            builder.pop().push("stone_abilities");
+            timeStoneCooldown = builder
+                    .comment("Cooldown in ticks for the Time Stone (20 ticks = 1 second)")
+                    .defineInRange("timeStoneCooldown", 500, 0, 6000);
             
-            spaceStonePowerRadius = builder
-                    .comment("Space Stone teleportation radius in blocks")
-                    .defineInRange("spaceStonePowerRadius", 100.0, 10.0, 10000.0);
+            soulStoneCooldown = builder
+                    .comment("Cooldown in ticks for the Soul Stone (20 ticks = 1 second)")
+                    .defineInRange("soulStoneCooldown", 400, 0, 6000);
             
-            mindStoneControlDuration = builder
-                    .comment("Mind Stone control duration in seconds")
-                    .defineInRange("mindStoneControlDuration", 30, 5, 300);
+            builder.pop();
             
-            realityStonePowerMultiplier = builder
-                    .comment("Reality Stone power multiplier")
-                    .defineInRange("realityStonePowerMultiplier", 2.0, 1.0, 10.0);
+            builder.comment("Insane Craft Weapons Configuration")
+                   .push("insane_craft");
             
-            powerStoneDamageMultiplier = builder
-                    .comment("Power Stone damage multiplier")
-                    .defineInRange("powerStoneDamageMultiplier", 5.0, 1.0, 50.0);
+            insaneCraftWeaponPower = builder
+                    .comment("Power multiplier for Insane Craft weapons (higher = more powerful)")
+                    .defineInRange("insaneCraftWeaponPower", 3.0, 1.0, 10.0);
             
-            timeStoneEffectDuration = builder
-                    .comment("Time Stone effect duration in seconds")
-                    .defineInRange("timeStoneEffectDuration", 60, 10, 600);
+            royalGuardianSwordDamage = builder
+                    .comment("Base damage for the Royal Guardian Sword")
+                    .defineInRange("royalGuardianSwordDamage", 25, 1, 100);
             
-            soulStoneLifeStealAmount = builder
-                    .comment("Soul Stone life steal amount (hearts)")
-                    .defineInRange("soulStoneLifeStealAmount", 1.0, 0.5, 10.0);
+            thorHammerDamage = builder
+                    .comment("Base damage for Thor's Hammer")
+                    .defineInRange("thorHammerDamage", 30, 1, 100);
             
-            builder.pop().push("gauntlet");
+            builder.pop();
             
-            enableGauntletSnapAbility = builder
-                    .comment("Enable the snap ability of the Infinity Gauntlet")
-                    .define("enableGauntletSnapAbility", true);
+            builder.comment("Insane Craft Boss Configuration")
+                   .push("bosses");
             
-            gauntletSnapCooldown = builder
-                    .comment("Cooldown for the snap ability (in seconds)")
-                    .defineInRange("gauntletSnapCooldown", 300, 60, 3600);
+            insaneCraftBossHealth = builder
+                    .comment("Health multiplier for Insane Craft bosses (higher = more health)")
+                    .defineInRange("insaneCraftBossHealth", 2.0, 1.0, 10.0);
             
-            builder.pop().push("insane_craft");
-            
-            enableBossDrops = builder
-                    .comment("Enable Infinity Stone drops from Insane Craft bosses")
-                    .define("enableBossDrops", true);
-            
-            bossNames = builder
-                    .comment("List of Insane Craft bosses that can drop Infinity Stones")
-                    .defineList("bossNames", 
-                            Arrays.asList("CrazyWither", "MegaDragon", "UltimateBoss", "ChaosGuardian"), 
-                            obj -> obj instanceof String);
+            insaneCraftBossDamage = builder
+                    .comment("Damage multiplier for Insane Craft bosses (higher = more damage)")
+                    .defineInRange("insaneCraftBossDamage", 1.5, 1.0, 5.0);
             
             builder.pop();
         }
     }
     
-    public static void loadConfig(ForgeConfigSpec spec, Path path) {
-        final CommentedFileConfig configData = CommentedFileConfig.builder(path)
-                .sync()
-                .autosave()
-                .writingMode(WritingMode.REPLACE)
-                .build();
-        
-        configData.load();
-        spec.setConfig(configData);
+    @SubscribeEvent
+    public static void onLoad(final ModConfigEvent event) {
+        InfinityStonesMod.LOGGER.info("Loaded Infinity Stones configuration file {}", event.getConfig().getFileName());
     }
 }
