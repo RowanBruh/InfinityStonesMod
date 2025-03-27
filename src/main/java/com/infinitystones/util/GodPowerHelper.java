@@ -67,4 +67,40 @@ public class GodPowerHelper {
         return entity.getType().getRegistryName() != null && 
                entity.getType().getRegistryName().toString().contains(typeName);
     }
+    
+    /**
+     * Gets nearby entities for area effect abilities
+     */
+    public static <T extends Entity> java.util.List<T> getNearbyEntities(World world, Entity center, 
+            double radius, Class<T> entityType) {
+        return world.getEntitiesWithinAABB(entityType, 
+            center.getBoundingBox().grow(radius), 
+            entity -> entity != center && center.getDistance(entity) <= radius);
+    }
+    
+    /**
+     * Gets the minimum distance between an entity and a list of positions
+     */
+    public static double getMinDistanceToPositions(Entity entity, java.util.List<BlockPos> positions) {
+        double minDistance = Double.MAX_VALUE;
+        for (BlockPos pos : positions) {
+            double distanceSq = entity.getDistanceSq(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+            if (distanceSq < minDistance) {
+                minDistance = distanceSq;
+            }
+        }
+        return Math.sqrt(minDistance);
+    }
+    
+    /**
+     * Creates a damage source that bypasses invulnerability frames
+     */
+    public static DamageSource causeInstantGodDamage(PlayerEntity player, String godName) {
+        return new DamageSource("godpower." + godName) {
+            @Override
+            public boolean isDamageAbsolute() {
+                return true;
+            }
+        }.setDamageBypassesArmor().setMagicDamage();
+    }
 }

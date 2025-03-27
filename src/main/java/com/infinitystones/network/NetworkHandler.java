@@ -6,39 +6,31 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 /**
- * Handles network packets for the mod
+ * Handles network communication for the mod
  */
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "1";
-    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+    
+    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(InfinityStonesMod.MOD_ID, "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
     );
     
-    private static int packetId = 0;
+    private static int id = 0;
     
     /**
-     * Initializes the network handler
+     * Registers all packet types
      */
-    public static void init() {
-        // Register all packets
-        CHANNEL.registerMessage(
-                nextID(),
-                AdminCommandPacket.class,
-                AdminCommandPacket::encode,
-                AdminCommandPacket::decode,
-                AdminCommandPacket::handle
-        );
-    }
-    
-    /**
-     * Gets the next packet ID
-     *
-     * @return the next packet ID
-     */
-    private static int nextID() {
-        return packetId++;
+    public static void register() {
+        // Register flight activation packet
+        INSTANCE.registerMessage(id++, 
+                FlightActivationPacket.class, 
+                FlightActivationPacket::encode, 
+                FlightActivationPacket::decode, 
+                FlightActivationPacket::handle);
+        
+        // Add other packets here as needed
     }
 }

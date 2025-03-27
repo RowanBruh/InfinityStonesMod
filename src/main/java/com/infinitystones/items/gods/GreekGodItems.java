@@ -68,8 +68,8 @@ public class GreekGodItems {
                     .rarity(Rarity.EPIC)));
 
     // Hermes' Winged Boots - Grants speed and jump boost
-    public static final RegistryObject<Item> HERMES_WINGED_BOOTS = ITEMS.register("hermes_winged_boots",
-            () -> new HermesWingedBoots(new Item.Properties()
+    public static final RegistryObject<Item> HERMES_BOOTS = ITEMS.register("hermes_boots",
+            () -> new HermesBoots(new Item.Properties()
                     .group(ModItems.INFINITY_STONES_TAB)
                     .maxStackSize(1)
                     .maxDamage(1000)
