@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "infinitystones:block/traps/tnt_trap"
+    }
+  }
+}
