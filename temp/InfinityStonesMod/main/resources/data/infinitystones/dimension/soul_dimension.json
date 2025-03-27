@@ -1,0 +1,13 @@
+{
+  "type": "infinitystones:soul_dimension_type",
+  "generator": {
+    "type": "infinitystones:stone_chunk_generator",
+    "biome_source": {
+      "type": "infinitystones:stone_biome_provider",
+      "seed": 4242,
+      "dimension_type": "soul"
+    },
+    "seed": 4242,
+    "dimension_type": "soul"
+  }
+}

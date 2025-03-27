@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "infinitystones:block/admin_command_block" }
+  }
+}

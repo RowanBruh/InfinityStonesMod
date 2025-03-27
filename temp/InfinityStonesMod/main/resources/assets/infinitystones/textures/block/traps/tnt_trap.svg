@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <!-- Background TNT texture -->
+  <rect width="16" height="16" fill="#B03A2E" />
+  
+  <!-- TNT pattern -->
+  <rect x="0" y="0" width="16" height="2" fill="#943126" />
+  <rect x="0" y="14" width="16" height="2" fill="#943126" />
+  
+  <!-- TNT text -->
+  <text x="4" y="9" font-family="sans-serif" font-size="4" fill="white" font-weight="bold">TNT</text>
+  
+  <!-- Pressure plate at the top -->
+  <rect x="3" y="3" width="10" height="1" fill="#555555" />
+  
+  <!-- Lines indicating trip wires -->
+  <line x1="3" y1="4" x2="3" y2="13" stroke="#333333" stroke-width="0.5" />
+  <line x1="13" y1="4" x2="13" y2="13" stroke="#333333" stroke-width="0.5" />
+  <line x1="3" y1="13" x2="13" y2="13" stroke="#333333" stroke-width="0.5" />
+  
+  <!-- Danger symbol -->
+  <polygon points="8,11 6,13 10,13" fill="#FFCC00" />
+  <text x="7.5" y="12.8" font-family="sans-serif" font-size="2" fill="black" font-weight="bold">!</text>
+</svg>

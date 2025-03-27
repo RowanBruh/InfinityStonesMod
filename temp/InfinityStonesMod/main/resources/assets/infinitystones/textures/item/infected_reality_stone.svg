@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <radialGradient id="realityStoneGrad" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#ff3333;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#cc0000;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#990000;stop-opacity:1" />
+    </radialGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="0.8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="infectionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0fa;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#0a8;stop-opacity:0.7" />
+    </linearGradient>
+  </defs>
+
+  <!-- Base Stone -->
+  <path d="M8,4 L11,6 L9,10 L7,10 L5,6 Z" 
+        fill="url(#realityStoneGrad)" stroke="#990000" stroke-width="0.3"/>
+  
+  <!-- Inner Facets -->
+  <path d="M8,4 L8,10 M5,6 L11,6" 
+        stroke="#990000" stroke-width="0.2" fill="none" opacity="0.7"/>
+  
+  <!-- Nano Tech Infection Patterns -->
+  <path d="M6,5 C7,4 9,4 10,5 M6,7 C7,8 9,8 10,7" 
+        stroke="url(#infectionGrad)" stroke-width="0.4" fill="none" opacity="0.7"/>
+  
+  <!-- Infection Veins -->
+  <path d="M7,4 L7,6 M9,4 L9,6 M7,8 L7,10 M9,8 L9,10" 
+        stroke="#0fa" stroke-width="0.3" opacity="0.8"/>
+  <path d="M5,6 L7,6 M9,6 L11,6" 
+        stroke="#0fa" stroke-width="0.3" opacity="0.8"/>
+  
+  <!-- Center Glow -->
+  <circle cx="8" cy="7" r="1.2" fill="#0fa" opacity="0.4" filter="url(#glow)"/>
+  
+  <!-- Reality Energy -->
+  <circle cx="7" cy="5" r="0.2" fill="#f55" opacity="0.8"/>
+  <circle cx="9" cy="5" r="0.2" fill="#f55" opacity="0.8"/>
+  <circle cx="7" cy="9" r="0.2" fill="#f55" opacity="0.8"/>
+  <circle cx="9" cy="9" r="0.2" fill="#f55" opacity="0.8"/>
+  
+  <!-- Infection Glow Points -->
+  <circle cx="7" cy="6" r="0.2" fill="#0fa" opacity="0.8" filter="url(#glow)"/>
+  <circle cx="9" cy="6" r="0.2" fill="#0fa" opacity="0.8" filter="url(#glow)"/>
+  <circle cx="7" cy="8" r="0.2" fill="#0fa" opacity="0.8" filter="url(#glow)"/>
+  <circle cx="9" cy="8" r="0.2" fill="#0fa" opacity="0.8" filter="url(#glow)"/>
+  <circle cx="8" cy="7" r="0.3" fill="#0fa" opacity="0.8" filter="url(#glow)"/>
+</svg>

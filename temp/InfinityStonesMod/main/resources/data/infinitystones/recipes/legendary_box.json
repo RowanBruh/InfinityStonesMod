@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CPC",
+    "PEP",
+    "CPC"
+  ],
+  "key": {
+    "C": {
+      "item": "infinitystones:cosmic_pearl"
+    },
+    "P": {
+      "item": "infinitystones:cosmic_fragment"
+    },
+    "E": {
+      "item": "infinitystones:epic_box"
+    }
+  },
+  "result": {
+    "item": "infinitystones:legendary_box",
+    "count": 1
+  }
+}
