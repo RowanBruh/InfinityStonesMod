@@ -1,0 +1,15 @@
+{
+  "ambient_light": 0.3,
+  "natural": false,
+  "has_skylight": false,
+  "has_ceiling": true,
+  "ultrawarm": true,
+  "has_raids": false,
+  "respawn_anchor_works": true,
+  "bed_works": false,
+  "piglin_safe": false,
+  "infiniburn": "minecraft:infiniburn_nether",
+  "logical_height": 256,
+  "effects": "minecraft:the_nether",
+  "fixed_time": 18000
+}
