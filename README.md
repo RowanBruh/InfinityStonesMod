@@ -1,48 +1,45 @@
-# Infinity Stones Mod for Minecraft 1.21.5
+# Infinity Stones Mod
 
-A comprehensive Minecraft mod that introduces the Infinity Stones from the Marvel universe as powerful artifacts with unique gameplay mechanics, inspired by the Insane Craft series.
+A Minecraft mod that introduces the Infinity Stones as craftable, powerful artifacts with unique gameplay mechanics inspired by the Insane Craft series. Players can collect, combine, and master mystical stones that offer transformative abilities and interactive experiences.
 
 ## Features
 
-- **Six Infinity Stones**: Space, Mind, Reality, Power, Time, and Soul stones, each with unique abilities
-- **Infinity Gauntlet**: Wield the power of the stones individually with specialized GUI for stone management
-- **Advanced Infinity Gauntlet**: Use combined stone powers with two operation modes (Individual and Combined)
-- **Custom Dimensions**: Each stone provides access to a unique dimension
-- **Infected Variants**: High-risk, high-reward infected stones and equipment with enhanced abilities
-- **Nano Tech Items**: Advanced technology-based equipment:
-  - Nano Tech Core and Materials
-  - Nano Tech Tools (Sword, Pickaxe)
-  - Nano Tech Armor Set (Helmet, Chestplate, Leggings, Boots)
-  - Infected variants of all Nano Tech items
-- **Custom Boxes**: Various loot boxes with different rarity tiers
-- **Trap Mechanisms**: Various traps including TNT trap, Fake Diamond Ore, and Spike Trap
-- **Greek God Items** with unique abilities:
-  - Zeus's Lightning Bolt
-  - Poseidon's Trident
-  - Hades' Bident
-  - Artemis' Bow
-  - Apollo's Lyre
-  - Athena's Spear
-  - Ares' Sword
-  - Hermes' Winged Boots
-- **Admin Command Block**: Special command execution for non-creative players
-- **One Way Blocks**: Special blocks that mimic the texture of other blocks from one side
+### Infinity Stones
+- Six unique infinity stones with different powers
+- Infinity Gauntlet to wield multiple stones
+- Custom dimensions accessible through the stones
 
-## Requirements
+### Bionic (Bonc) Items
+- **TNT Sword**: A sword that creates explosions on hit and can detonate at range with right-click
+- **Wormhole Generator**: Creates portals that allow teleportation to distant locations
 
-- Minecraft 1.21.5
-- Forge Mod Loader
+### SkiddziePlays & Rowan Industries Content
+- **Chaos Stone**: Creates random chaotic effects in an area around the player
+- **Magic Mirror**: Save locations and teleport back to them at will
+- **X-Ray Glasses**: Reveals valuable ores through blocks
+- **Weather Staff**: Control the weather in your world
+- **Gravity Manipulator**: Change gravity in different ways in the surrounding area
+- **Enhanced Command Block**: A command block that can be used in survival mode
 
 ## Installation
 
-1. Install Minecraft Forge for version 1.21.5
-2. Download the latest release from the releases page
-3. Place the downloaded JAR file in your Minecraft mods folder
-4. Launch Minecraft with the Forge profile
+1. Download and install Minecraft Forge for 1.16.5
+2. Download the latest release of the Infinity Stones Mod
+3. Place the downloaded .jar file in your Minecraft mods folder
+4. Start Minecraft with the Forge profile
+
+## Creative Tabs
+
+- **Infinity Stones**: Contains all infinity stone related items
+- **Bonc's Items**: Contains items inspired by Bionic's videos
+- **Rowan Industries**: Contains items from SkiddziePlays content and special boxes
 
 ## Credits
 
-Inspired by content from:
-- Insane Craft series
-- SkiddziePlays' videos
-- Bionic's (Bonc's) content
+- Inspired by Marvel's Infinity Stones
+- Content from Insane Craft series
+- Items inspired by SkiddziePlays' and Bionic's Minecraft videos
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

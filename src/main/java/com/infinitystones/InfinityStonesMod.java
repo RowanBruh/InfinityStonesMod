@@ -1,57 +1,72 @@
 package com.infinitystones;
 
-import org.slf4j.Logger;
+import com.infinitystones.blocks.ModBlocks;
+import com.infinitystones.items.bionic.BionicItems;
+import com.infinitystones.items.skiddzie.SkiddzieItems;
 
-import com.infinitystones.items.NanoTechItems;
-import com.infinitystones.registry.ModCreativeTabs;
-import com.mojang.logging.LogUtils;
-
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-/**
- * Main class for the Infinity Stones Mod.
- * Handles initialization and registration of mod components.
- */
 @Mod(InfinityStonesMod.MOD_ID)
 public class InfinityStonesMod {
     public static final String MOD_ID = "infinitystones";
-    public static final Logger LOGGER = LogUtils.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    // Creative Tabs
+    public static final ItemGroup INFINITY_STONES_TAB = new ItemGroup("infinityStonesTab") {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(Items.DIAMOND); // Placeholder - would be replaced with an Infinity Stone
+        }
+    };
     
+    public static final ItemGroup BONC_TAB = new ItemGroup("boncItemsTab") {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(BionicItems.TNT_SWORD.get());
+        }
+    };
+    
+    public static final ItemGroup ROWAN_INDUSTRIES_TAB = new ItemGroup("rowanIndustriesTab") {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(SkiddzieItems.CHAOS_STONE.get());
+        }
+    };
+
     public InfinityStonesMod() {
-        // Get the mod event bus
+        // Register event listeners
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        
-        // Register creative tabs
-        ModCreativeTabs.register(modEventBus);
-        
-        // Register items
-        NanoTechItems.register(modEventBus);
-        
-        // Register setup methods
-        modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::setup);
         modEventBus.addListener(this::clientSetup);
-        
-        // Register forge event bus
+
+        // Register DeferredRegisters
+        BionicItems.ITEMS.register(modEventBus);
+        SkiddzieItems.ITEMS.register(modEventBus);
+        ModBlocks.BLOCKS.register(modEventBus);
+        ModBlocks.ITEMS.register(modEventBus);
+        ModBlocks.TILE_ENTITIES.register(modEventBus);
+
+        // Register ourselves for server and other game events
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        // Common setup code here
-        LOGGER.info("COMMON SETUP");
-        
-        event.enqueueWork(() -> {
-            // Add items to creative tabs after registration
-            NanoTechItems.addItemsToTabs();
-        });
+
+    private void setup(final FMLCommonSetupEvent event) {
+        LOGGER.info("Infinity Stones Mod initializing...");
+        // Common setup code
     }
-    
+
     private void clientSetup(final FMLClientSetupEvent event) {
-        // Client-side setup code here
-        LOGGER.info("CLIENT SETUP");
+        LOGGER.info("Infinity Stones Mod client setup...");
+        // Client-only setup code
     }
 }
