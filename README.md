@@ -65,6 +65,7 @@ This mod includes content inspired by several popular Minecraft YouTubers:
 
 - Bionic/Bonc (Ultra items and special bases)
 - SkiddziePlays (Rowan Industries, Greek Gods, and trap mechanisms)
+- Skeppy (Boss battle and arena structure)
 - Insane Craft series concept items
 
 ## Installation
@@ -91,4 +92,4 @@ All Rights Reserved
 ## Credits
 
 - Developed for Minecraft version 1.21.5
-- Inspired by content from Bionic, SkiddziePlays, and the Insane Craft series
+- Inspired by content from Bionic, SkiddziePlays, Skeppy, and the Insane Craft series
