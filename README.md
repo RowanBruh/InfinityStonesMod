@@ -13,6 +13,7 @@ A Minecraft mod that introduces the Infinity Stones as dynamic, craftable artifa
 - Infected variants of items with enhanced powers and side effects
 - Nano Tech and Infected Nano Tech equipment sets
 - Custom structures and dimensions for exploration
+- Base Locator Wands for finding special structures in the world
 - Epic boss battle against the Skeppy Boss with three phases
 - Robust compatibility with other popular Minecraft mods
 
@@ -38,6 +39,25 @@ The Infinity Stones Mod is designed to work seamlessly with other popular Minecr
 - Mekanism
 - Create
 - Thermal Series
+
+## World Structures
+
+The mod adds several special structures to the Minecraft world:
+
+### Bionic's Base
+- A rare structure containing Bionic/Bonc's custom items
+- Can be located using the Bionic Base Locator wand
+- Contains special loot chests with unique items
+
+### Skiddzie's Base
+- Features custom blocks and items from SkiddziePlays' videos
+- Find it using the Skiddzie Base Locator wand
+- Home to many Rowan Industries experimental items
+
+### Skeppy Arena
+- A challenging battle arena where you can fight the Skeppy Boss
+- Locate it with the Skeppy Arena Locator wand
+- Defeat the three-phase boss battle for exclusive rewards
 
 ## Content Creators Featured
 
