@@ -1,39 +1,148 @@
-modLoader="javafml"
-loaderVersion="[36,)"
-license="MIT"
-issueTrackerURL="https://github.com/yourusername/InfinityStonesMod/issues"
+# This is an example mods.toml file. It contains the data relating to the loading mods.
+# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
+# The overall format is standard TOML format, v0.5.0.
+# Note that there are a couple of TOML lists in this file.
+# Find more information on toml format here:  https://github.com/toml-lang/toml
 
-[[mods]]
-modId="infinitystones"
-version="1.0.0"
-displayName="Infinity Stones Mod"
-updateJSONURL=""
-displayURL=""
-logoFile="infinitystones.png"
-credits="Inspired by Marvel's Infinity Stones, Insane Craft, SkiddziePlays and Bionic YouTube content"
-authors="replit_ai"
+# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
+modLoader="javafml" #mandatory
+
+# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
+loaderVersion="[47,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+
+# The license for your mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="All Rights Reserved"
+
+# A URL to refer people to when problems occur with this mod
+#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+
+# A list of mods - how many allowed here is determined by the individual mod loader
+[[mods]] #mandatory
+
+# The modid of the mod
+modId="infinitystones" #mandatory
+
+# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
+# ${file.jarVersion} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
+# see the associated build.gradle script for how to populate this completely automatically during a build
+version="1.0.0" #mandatory
+
+# A display name for the mod
+displayName="Infinity Stones Mod" #mandatory
+
+# A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+
+# A URL for the "homepage" for this mod, displayed in the mod UI
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+
+# A file name (in the root of the mod JAR) containing a logo for display
+logoFile="infinitystones.png" #optional
+
+# A text field displayed in the mod UI
+credits="Created with inspiration from Bionic, SkiddziePlays, and the Insane Craft series" #optional
+
+# A text field displayed in the mod UI
+authors="InfinityStones Mod Team" #optional
+
+# The description text for the mod (multi line!) (#mandatory)
 description='''
-A Minecraft mod that introduces the Infinity Stones as craftable, powerful artifacts with unique gameplay mechanics. 
-Includes content from Insane Craft and various YouTube creators like SkiddziePlays and Bionic.
+A Minecraft mod that introduces the Infinity Stones as dynamic, craftable artifacts with immersive gameplay mechanics. 
 
-The mod includes:
+The mod provides players with a rich, strategic experience of collecting, combining, and mastering mystical stones that offer transformative abilities and unique interactions.
+
+Features:
 - Six Infinity Stones with unique abilities
-- Infinity Gauntlet to wield multiple stones
-- Custom dimensions accessible through the stones
-- Various powerful items from Insane Craft series
-- Special weapons and tools from YouTube creator content
+- Infinity Gauntlet to combine and control the stones
+- Greek God-themed items with powerful abilities
+- Custom dimensions, structures, and boss battles
+- Compatible with many popular Minecraft mods
 '''
 
-[[dependencies.infinitystones]]
-    modId="forge"
-    mandatory=true
-    versionRange="[36,)"
+# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
+[[dependencies.infinitystones]] #optional
+    # the modid of the dependency
+    modId="forge" #mandatory
+    # Does this dependency have to exist - if not, ordering below must be specified
+    mandatory=true #mandatory
+    # The version range of the dependency
+    versionRange="[47,)" #mandatory
+    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
+    # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
-
+    
+# Here's another dependency
 [[dependencies.infinitystones]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5,1.17)"
+    # This version range declares a minimum of the current minecraft version up to but not including the next major version
+    versionRange="[1.21,1.22)"
     ordering="NONE"
+    side="BOTH"
+
+# Optional dependencies that enhance functionality
+[[dependencies.infinitystones]]
+    modId="jei"
+    mandatory=false
+    versionRange="[15.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.infinitystones]]
+    modId="curios"
+    mandatory=false
+    versionRange="[1.21-5.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.infinitystones]]
+    modId="patchouli"
+    mandatory=false
+    versionRange="[1.21-1.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+# Compatibility with other popular mods
+[[dependencies.infinitystones]]
+    modId="tconstruct"
+    mandatory=false
+    versionRange="[3.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.infinitystones]]
+    modId="botania"
+    mandatory=false
+    versionRange="[1.21-434,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.infinitystones]]
+    modId="ae2"
+    mandatory=false
+    versionRange="[15.0.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.infinitystones]]
+    modId="mekanism"
+    mandatory=false
+    versionRange="[1.21-10.4.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.infinitystones]]
+    modId="create"
+    mandatory=false
+    versionRange="[0.9.0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.infinitystones]]
+    modId="thermal"
+    mandatory=false
+    versionRange="[10.0.0,)"
+    ordering="AFTER"
     side="BOTH"

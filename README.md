@@ -1,45 +1,74 @@
 # Infinity Stones Mod
 
-A Minecraft mod that introduces the Infinity Stones as craftable, powerful artifacts with unique gameplay mechanics inspired by the Insane Craft series. Players can collect, combine, and master mystical stones that offer transformative abilities and interactive experiences.
+A Minecraft mod that introduces the Infinity Stones as dynamic, craftable artifacts with immersive gameplay mechanics. The mod provides players with a rich, strategic experience of collecting, combining, and mastering mystical stones that offer transformative abilities and unique interactions.
 
 ## Features
 
-### Infinity Stones
-- Six unique infinity stones with different powers
-- Infinity Gauntlet to wield multiple stones
-- Custom dimensions accessible through the stones
+- Six Infinity Stones with unique abilities (Space, Mind, Reality, Power, Time, Soul)
+- Infinity Gauntlet to combine and control the stones
+- Advanced Infinity Gauntlet with two operation modes (Individual and Combined)
+- Greek God-themed items with powerful abilities inspired by SkiddziePlays
+- Bonc's collection of ultra items and equipment
+- Rowan Industries creative tab with custom boxes, blocks, and trap mechanisms
+- Infected variants of items with enhanced powers and side effects
+- Nano Tech and Infected Nano Tech equipment sets
+- Custom structures and dimensions for exploration
+- Epic boss battle against the Skeppy Boss with three phases
+- Robust compatibility with other popular Minecraft mods
 
-### Bionic (Bonc) Items
-- **TNT Sword**: A sword that creates explosions on hit and can detonate at range with right-click
-- **Wormhole Generator**: Creates portals that allow teleportation to distant locations
+## Mod Compatibility
 
-### SkiddziePlays & Rowan Industries Content
-- **Chaos Stone**: Creates random chaotic effects in an area around the player
-- **Magic Mirror**: Save locations and teleport back to them at will
-- **X-Ray Glasses**: Reveals valuable ores through blocks
-- **Weather Staff**: Control the weather in your world
-- **Gravity Manipulator**: Change gravity in different ways in the surrounding area
-- **Enhanced Command Block**: A command block that can be used in survival mode
+The Infinity Stones Mod is designed to work seamlessly with other popular Minecraft mods:
+
+### JEI (Just Enough Items)
+- Custom recipe categories for all mod items
+- Detailed crafting information for Infinity Stones, Gauntlets, Greek God items, and more
+- Visual guides for special crafting mechanics
+
+### Curios API
+- Equip Infinity Stones in dedicated Curios slots
+- Wear the Infinity Gauntlet as a Curio item
+- Special slots for Greek God items
+
+### Additional Compatible Mods
+- Patchouli (In-game documentation)
+- Tinkers' Construct
+- Botania
+- Applied Energistics 2
+- Mekanism
+- Create
+- Thermal Series
+
+## Content Creators Featured
+
+This mod includes content inspired by several popular Minecraft YouTubers:
+
+- Bionic/Bonc (Ultra items and special bases)
+- SkiddziePlays (Rowan Industries, Greek Gods, and trap mechanisms)
+- Insane Craft series concept items
 
 ## Installation
 
-1. Download and install Minecraft Forge for 1.16.5
+1. Install Minecraft Forge for version 1.21.5
 2. Download the latest release of the Infinity Stones Mod
-3. Place the downloaded .jar file in your Minecraft mods folder
-4. Start Minecraft with the Forge profile
+3. Place the .jar file in your Minecraft mods folder
+4. Launch Minecraft with Forge
 
-## Creative Tabs
+## Requirements
 
-- **Infinity Stones**: Contains all infinity stone related items
-- **Bonc's Items**: Contains items inspired by Bionic's videos
-- **Rowan Industries**: Contains items from SkiddziePlays content and special boxes
+- Minecraft 1.21.5
+- Forge Mod Loader
 
-## Credits
+## Optional Dependencies
 
-- Inspired by Marvel's Infinity Stones
-- Content from Insane Craft series
-- Items inspired by SkiddziePlays' and Bionic's Minecraft videos
+- JEI (recommended for recipe viewing)
+- Curios API (recommended for expanded inventory slots)
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+All Rights Reserved
+
+## Credits
+
+- Developed for Minecraft version 1.21.5
+- Inspired by content from Bionic, SkiddziePlays, and the Insane Craft series
